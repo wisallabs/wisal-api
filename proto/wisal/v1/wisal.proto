@@ -1,0 +1,117 @@
+syntax = "proto3";
+
+package wisal.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/wisallabs/api/gen/go/wisal/v1;wisalv1";
+
+service AuthService {
+  rpc SendOTP(SendOTPRequest) returns (SendOTPResponse);
+  rpc VerifyOTP(VerifyOTPRequest) returns (VerifyOTPResponse);
+}
+
+service SocialService {
+  rpc CreateChannel(CreateChannelRequest) returns (CreateChannelResponse);
+  rpc SearchChannels(SearchChannelsRequest) returns (SearchChannelsResponse);
+  rpc GetMyChannels(GetMyChannelsRequest) returns (GetMyChannelsResponse);
+  rpc SubscribeChannel(SubscribeChannelRequest) returns (SubscribeChannelResponse);
+
+  rpc CreateMessage(CreateMessageRequest) returns (CreateMessageResponse);
+}
+
+message User {
+  string email = 1;
+  string name = 2;
+  string bio = 3;
+  string public_id = 4;
+  string image = 5;
+}
+
+message SendOTPRequest {
+  string email = 1;
+}
+message SendOTPResponse {}
+
+message VerifyOTPRequest {
+  string email = 1;
+  string code = 2;
+}
+message VerifyOTPResponse {
+  string token = 1;
+  User user = 2;
+}
+
+message Channel {
+  string public_id = 1;
+  string name = 2;
+  string description = 3;
+  string image = 4;
+  bool is_verified = 5;
+  google.protobuf.Timestamp last_post_at = 6;
+
+  bool is_owner = 7;
+  bool is_subscribed = 8;
+
+  optional bool notifications_enabled = 9;
+}
+
+message CreateChannelRequest {
+  string name = 1;
+  string image = 2;
+  string public_id = 3;
+}
+message CreateChannelResponse {
+  string public_id = 1;
+}
+
+message SearchChannelsRequest {
+  string query = 1;
+}
+message SearchChannelsResponse {
+  repeated Channel channels = 1;
+}
+
+message GetMyChannelsRequest {}
+message GetMyChannelsResponse {
+  repeated Channel channels = 1;
+}
+
+message SubscribeChannelRequest {
+  string channel_public_id = 1;
+}
+message SubscribeChannelResponse {}
+
+enum MessageType {
+  MESSAGE_TYPE_UNSPECIFIED = 0;
+  MESSAGE_TYPE_TEXT = 1;
+  MESSAGE_TYPE_VOICE = 2;
+  MESSAGE_TYPE_IMAGE = 3;
+  MESSAGE_TYPE_AUDIO = 4;
+}
+message Message {
+  int64 message_id = 1;
+  optional string author_id = 2;
+  optional int64 root_id = 3;
+  optional int64 parent_id = 4;
+  MessageType type = 5;
+  optional string body = 6;
+  optional string attachments = 7;
+  int64 reply_count = 8;
+  bool is_thread = 9;
+  bool is_edited = 10;
+
+  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
+}
+
+message CreateMessageRequest {
+  string channel_public_id = 1;
+  optional int64 root_id = 2;
+  optional int64 parent_id = 3;
+  MessageType type = 4;
+  string body = 5;
+}
+message CreateMessageResponse {
+  Message message = 1;
+}
