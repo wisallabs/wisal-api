@@ -160,14 +160,14 @@ public struct Wisal_V1_Channel: Sendable {
 
   public var isVerified: Bool = false
 
-  public var lastPostAt: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {_lastPostAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
-    set {_lastPostAt = newValue}
+  public var lastMessageAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {_lastMessageAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_lastMessageAt = newValue}
   }
-  /// Returns true if `lastPostAt` has been explicitly set.
-  public var hasLastPostAt: Bool {self._lastPostAt != nil}
-  /// Clears the value of `lastPostAt`. Subsequent reads from it will return its default value.
-  public mutating func clearLastPostAt() {self._lastPostAt = nil}
+  /// Returns true if `lastMessageAt` has been explicitly set.
+  public var hasLastMessageAt: Bool {self._lastMessageAt != nil}
+  /// Clears the value of `lastMessageAt`. Subsequent reads from it will return its default value.
+  public mutating func clearLastMessageAt() {self._lastMessageAt = nil}
 
   public var isOwner: Bool = false
 
@@ -186,7 +186,7 @@ public struct Wisal_V1_Channel: Sendable {
 
   public init() {}
 
-  fileprivate var _lastPostAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+  fileprivate var _lastMessageAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
   fileprivate var _notificationsEnabled: Bool? = nil
 }
 
@@ -212,6 +212,30 @@ public struct Wisal_V1_CreateChannelResponse: Sendable {
   // methods supported on all messages.
 
   public var publicID: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public struct Wisal_V1_GetChannelMessagesRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var publicID: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public struct Wisal_V1_GetChannelMessagesResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var messages: [Wisal_V1_Message] = []
 
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -293,14 +317,14 @@ public struct Wisal_V1_Message: Sendable {
 
   public var messageID: Int64 = 0
 
-  public var authorID: String {
-    get {_authorID ?? String()}
-    set {_authorID = newValue}
+  public var authorPublicID: String {
+    get {_authorPublicID ?? String()}
+    set {_authorPublicID = newValue}
   }
-  /// Returns true if `authorID` has been explicitly set.
-  public var hasAuthorID: Bool {self._authorID != nil}
-  /// Clears the value of `authorID`. Subsequent reads from it will return its default value.
-  public mutating func clearAuthorID() {self._authorID = nil}
+  /// Returns true if `authorPublicID` has been explicitly set.
+  public var hasAuthorPublicID: Bool {self._authorPublicID != nil}
+  /// Clears the value of `authorPublicID`. Subsequent reads from it will return its default value.
+  public mutating func clearAuthorPublicID() {self._authorPublicID = nil}
 
   public var rootID: Int64 {
     get {_rootID ?? 0}
@@ -342,6 +366,7 @@ public struct Wisal_V1_Message: Sendable {
 
   public var replyCount: Int64 = 0
 
+  /// ?
   public var isThread: Bool = false
 
   public var isEdited: Bool = false
@@ -368,7 +393,7 @@ public struct Wisal_V1_Message: Sendable {
 
   public init() {}
 
-  fileprivate var _authorID: String? = nil
+  fileprivate var _authorPublicID: String? = nil
   fileprivate var _rootID: Int64? = nil
   fileprivate var _parentID: Int64? = nil
   fileprivate var _body: String? = nil
@@ -618,7 +643,7 @@ extension Wisal_V1_VerifyOTPResponse: SwiftProtobuf.Message, SwiftProtobuf._Mess
 
 extension Wisal_V1_Channel: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".Channel"
-  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}public_id\0\u{1}name\0\u{1}description\0\u{1}image\0\u{3}is_verified\0\u{3}last_post_at\0\u{3}is_owner\0\u{3}is_subscribed\0\u{3}notifications_enabled\0")
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}public_id\0\u{1}name\0\u{1}description\0\u{1}image\0\u{3}is_verified\0\u{3}last_message_at\0\u{3}is_owner\0\u{3}is_subscribed\0\u{3}notifications_enabled\0")
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -631,7 +656,7 @@ extension Wisal_V1_Channel: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       case 3: try { try decoder.decodeSingularStringField(value: &self.description_p) }()
       case 4: try { try decoder.decodeSingularStringField(value: &self.image) }()
       case 5: try { try decoder.decodeSingularBoolField(value: &self.isVerified) }()
-      case 6: try { try decoder.decodeSingularMessageField(value: &self._lastPostAt) }()
+      case 6: try { try decoder.decodeSingularMessageField(value: &self._lastMessageAt) }()
       case 7: try { try decoder.decodeSingularBoolField(value: &self.isOwner) }()
       case 8: try { try decoder.decodeSingularBoolField(value: &self.isSubscribed) }()
       case 9: try { try decoder.decodeSingularBoolField(value: &self._notificationsEnabled) }()
@@ -660,7 +685,7 @@ extension Wisal_V1_Channel: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     if self.isVerified != false {
       try visitor.visitSingularBoolField(value: self.isVerified, fieldNumber: 5)
     }
-    try { if let v = self._lastPostAt {
+    try { if let v = self._lastMessageAt {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
     } }()
     if self.isOwner != false {
@@ -681,7 +706,7 @@ extension Wisal_V1_Channel: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     if lhs.description_p != rhs.description_p {return false}
     if lhs.image != rhs.image {return false}
     if lhs.isVerified != rhs.isVerified {return false}
-    if lhs._lastPostAt != rhs._lastPostAt {return false}
+    if lhs._lastMessageAt != rhs._lastMessageAt {return false}
     if lhs.isOwner != rhs.isOwner {return false}
     if lhs.isSubscribed != rhs.isSubscribed {return false}
     if lhs._notificationsEnabled != rhs._notificationsEnabled {return false}
@@ -755,6 +780,66 @@ extension Wisal_V1_CreateChannelResponse: SwiftProtobuf.Message, SwiftProtobuf._
 
   public static func ==(lhs: Wisal_V1_CreateChannelResponse, rhs: Wisal_V1_CreateChannelResponse) -> Bool {
     if lhs.publicID != rhs.publicID {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Wisal_V1_GetChannelMessagesRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".GetChannelMessagesRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}public_id\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.publicID) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.publicID.isEmpty {
+      try visitor.visitSingularStringField(value: self.publicID, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Wisal_V1_GetChannelMessagesRequest, rhs: Wisal_V1_GetChannelMessagesRequest) -> Bool {
+    if lhs.publicID != rhs.publicID {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Wisal_V1_GetChannelMessagesResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".GetChannelMessagesResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}messages\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeRepeatedMessageField(value: &self.messages) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.messages.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.messages, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Wisal_V1_GetChannelMessagesResponse, rhs: Wisal_V1_GetChannelMessagesResponse) -> Bool {
+    if lhs.messages != rhs.messages {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -920,7 +1005,7 @@ extension Wisal_V1_SubscribeChannelResponse: SwiftProtobuf.Message, SwiftProtobu
 
 extension Wisal_V1_Message: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".Message"
-  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}message_id\0\u{3}author_id\0\u{3}root_id\0\u{3}parent_id\0\u{1}type\0\u{1}body\0\u{1}attachments\0\u{3}reply_count\0\u{3}is_thread\0\u{3}is_edited\0\u{3}created_at\0\u{3}updated_at\0")
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}message_id\0\u{3}author_public_id\0\u{3}root_id\0\u{3}parent_id\0\u{1}type\0\u{1}body\0\u{1}attachments\0\u{3}reply_count\0\u{3}is_thread\0\u{3}is_edited\0\u{3}created_at\0\u{3}updated_at\0")
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -929,7 +1014,7 @@ extension Wisal_V1_Message: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularInt64Field(value: &self.messageID) }()
-      case 2: try { try decoder.decodeSingularStringField(value: &self._authorID) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self._authorPublicID) }()
       case 3: try { try decoder.decodeSingularInt64Field(value: &self._rootID) }()
       case 4: try { try decoder.decodeSingularInt64Field(value: &self._parentID) }()
       case 5: try { try decoder.decodeSingularEnumField(value: &self.type) }()
@@ -953,7 +1038,7 @@ extension Wisal_V1_Message: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     if self.messageID != 0 {
       try visitor.visitSingularInt64Field(value: self.messageID, fieldNumber: 1)
     }
-    try { if let v = self._authorID {
+    try { if let v = self._authorPublicID {
       try visitor.visitSingularStringField(value: v, fieldNumber: 2)
     } }()
     try { if let v = self._rootID {
@@ -991,7 +1076,7 @@ extension Wisal_V1_Message: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
 
   public static func ==(lhs: Wisal_V1_Message, rhs: Wisal_V1_Message) -> Bool {
     if lhs.messageID != rhs.messageID {return false}
-    if lhs._authorID != rhs._authorID {return false}
+    if lhs._authorPublicID != rhs._authorPublicID {return false}
     if lhs._rootID != rhs._rootID {return false}
     if lhs._parentID != rhs._parentID {return false}
     if lhs.type != rhs.type {return false}

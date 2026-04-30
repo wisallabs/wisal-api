@@ -54,6 +54,9 @@ const (
 	// SocialServiceCreateMessageProcedure is the fully-qualified name of the SocialService's
 	// CreateMessage RPC.
 	SocialServiceCreateMessageProcedure = "/wisal.v1.SocialService/CreateMessage"
+	// SocialServiceGetChannelMessagesProcedure is the fully-qualified name of the SocialService's
+	// GetChannelMessages RPC.
+	SocialServiceGetChannelMessagesProcedure = "/wisal.v1.SocialService/GetChannelMessages"
 )
 
 // AuthServiceClient is a client for the wisal.v1.AuthService service.
@@ -159,6 +162,7 @@ type SocialServiceClient interface {
 	GetMyChannels(context.Context, *connect.Request[v1.GetMyChannelsRequest]) (*connect.Response[v1.GetMyChannelsResponse], error)
 	SubscribeChannel(context.Context, *connect.Request[v1.SubscribeChannelRequest]) (*connect.Response[v1.SubscribeChannelResponse], error)
 	CreateMessage(context.Context, *connect.Request[v1.CreateMessageRequest]) (*connect.Response[v1.CreateMessageResponse], error)
+	GetChannelMessages(context.Context, *connect.Request[v1.GetChannelMessagesRequest]) (*connect.Response[v1.GetChannelMessagesResponse], error)
 }
 
 // NewSocialServiceClient constructs a client for the wisal.v1.SocialService service. By default, it
@@ -202,16 +206,23 @@ func NewSocialServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(socialServiceMethods.ByName("CreateMessage")),
 			connect.WithClientOptions(opts...),
 		),
+		getChannelMessages: connect.NewClient[v1.GetChannelMessagesRequest, v1.GetChannelMessagesResponse](
+			httpClient,
+			baseURL+SocialServiceGetChannelMessagesProcedure,
+			connect.WithSchema(socialServiceMethods.ByName("GetChannelMessages")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // socialServiceClient implements SocialServiceClient.
 type socialServiceClient struct {
-	createChannel    *connect.Client[v1.CreateChannelRequest, v1.CreateChannelResponse]
-	searchChannels   *connect.Client[v1.SearchChannelsRequest, v1.SearchChannelsResponse]
-	getMyChannels    *connect.Client[v1.GetMyChannelsRequest, v1.GetMyChannelsResponse]
-	subscribeChannel *connect.Client[v1.SubscribeChannelRequest, v1.SubscribeChannelResponse]
-	createMessage    *connect.Client[v1.CreateMessageRequest, v1.CreateMessageResponse]
+	createChannel      *connect.Client[v1.CreateChannelRequest, v1.CreateChannelResponse]
+	searchChannels     *connect.Client[v1.SearchChannelsRequest, v1.SearchChannelsResponse]
+	getMyChannels      *connect.Client[v1.GetMyChannelsRequest, v1.GetMyChannelsResponse]
+	subscribeChannel   *connect.Client[v1.SubscribeChannelRequest, v1.SubscribeChannelResponse]
+	createMessage      *connect.Client[v1.CreateMessageRequest, v1.CreateMessageResponse]
+	getChannelMessages *connect.Client[v1.GetChannelMessagesRequest, v1.GetChannelMessagesResponse]
 }
 
 // CreateChannel calls wisal.v1.SocialService.CreateChannel.
@@ -239,6 +250,11 @@ func (c *socialServiceClient) CreateMessage(ctx context.Context, req *connect.Re
 	return c.createMessage.CallUnary(ctx, req)
 }
 
+// GetChannelMessages calls wisal.v1.SocialService.GetChannelMessages.
+func (c *socialServiceClient) GetChannelMessages(ctx context.Context, req *connect.Request[v1.GetChannelMessagesRequest]) (*connect.Response[v1.GetChannelMessagesResponse], error) {
+	return c.getChannelMessages.CallUnary(ctx, req)
+}
+
 // SocialServiceHandler is an implementation of the wisal.v1.SocialService service.
 type SocialServiceHandler interface {
 	CreateChannel(context.Context, *connect.Request[v1.CreateChannelRequest]) (*connect.Response[v1.CreateChannelResponse], error)
@@ -246,6 +262,7 @@ type SocialServiceHandler interface {
 	GetMyChannels(context.Context, *connect.Request[v1.GetMyChannelsRequest]) (*connect.Response[v1.GetMyChannelsResponse], error)
 	SubscribeChannel(context.Context, *connect.Request[v1.SubscribeChannelRequest]) (*connect.Response[v1.SubscribeChannelResponse], error)
 	CreateMessage(context.Context, *connect.Request[v1.CreateMessageRequest]) (*connect.Response[v1.CreateMessageResponse], error)
+	GetChannelMessages(context.Context, *connect.Request[v1.GetChannelMessagesRequest]) (*connect.Response[v1.GetChannelMessagesResponse], error)
 }
 
 // NewSocialServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -285,6 +302,12 @@ func NewSocialServiceHandler(svc SocialServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(socialServiceMethods.ByName("CreateMessage")),
 		connect.WithHandlerOptions(opts...),
 	)
+	socialServiceGetChannelMessagesHandler := connect.NewUnaryHandler(
+		SocialServiceGetChannelMessagesProcedure,
+		svc.GetChannelMessages,
+		connect.WithSchema(socialServiceMethods.ByName("GetChannelMessages")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/wisal.v1.SocialService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case SocialServiceCreateChannelProcedure:
@@ -297,6 +320,8 @@ func NewSocialServiceHandler(svc SocialServiceHandler, opts ...connect.HandlerOp
 			socialServiceSubscribeChannelHandler.ServeHTTP(w, r)
 		case SocialServiceCreateMessageProcedure:
 			socialServiceCreateMessageHandler.ServeHTTP(w, r)
+		case SocialServiceGetChannelMessagesProcedure:
+			socialServiceGetChannelMessagesHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -324,4 +349,8 @@ func (UnimplementedSocialServiceHandler) SubscribeChannel(context.Context, *conn
 
 func (UnimplementedSocialServiceHandler) CreateMessage(context.Context, *connect.Request[v1.CreateMessageRequest]) (*connect.Response[v1.CreateMessageResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("wisal.v1.SocialService.CreateMessage is not implemented"))
+}
+
+func (UnimplementedSocialServiceHandler) GetChannelMessages(context.Context, *connect.Request[v1.GetChannelMessagesRequest]) (*connect.Response[v1.GetChannelMessagesResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("wisal.v1.SocialService.GetChannelMessages is not implemented"))
 }

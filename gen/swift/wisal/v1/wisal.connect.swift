@@ -91,6 +91,12 @@ public protocol Wisal_V1_SocialServiceClientInterface: Sendable {
 
     @available(iOS 13, *)
     func `createMessage`(request: Wisal_V1_CreateMessageRequest, headers: Connect.Headers) async -> ResponseMessage<Wisal_V1_CreateMessageResponse>
+
+    @discardableResult
+    func `getChannelMessages`(request: Wisal_V1_GetChannelMessagesRequest, headers: Connect.Headers, completion: @escaping @Sendable (ResponseMessage<Wisal_V1_GetChannelMessagesResponse>) -> Void) -> Connect.Cancelable
+
+    @available(iOS 13, *)
+    func `getChannelMessages`(request: Wisal_V1_GetChannelMessagesRequest, headers: Connect.Headers) async -> ResponseMessage<Wisal_V1_GetChannelMessagesResponse>
 }
 
 /// Concrete implementation of `Wisal_V1_SocialServiceClientInterface`.
@@ -151,6 +157,16 @@ public final class Wisal_V1_SocialServiceClient: Wisal_V1_SocialServiceClientInt
         return await self.client.unary(path: "/wisal.v1.SocialService/CreateMessage", idempotencyLevel: .unknown, request: request, headers: headers)
     }
 
+    @discardableResult
+    public func `getChannelMessages`(request: Wisal_V1_GetChannelMessagesRequest, headers: Connect.Headers = [:], completion: @escaping @Sendable (ResponseMessage<Wisal_V1_GetChannelMessagesResponse>) -> Void) -> Connect.Cancelable {
+        return self.client.unary(path: "/wisal.v1.SocialService/GetChannelMessages", idempotencyLevel: .unknown, request: request, headers: headers, completion: completion)
+    }
+
+    @available(iOS 13, *)
+    public func `getChannelMessages`(request: Wisal_V1_GetChannelMessagesRequest, headers: Connect.Headers = [:]) async -> ResponseMessage<Wisal_V1_GetChannelMessagesResponse> {
+        return await self.client.unary(path: "/wisal.v1.SocialService/GetChannelMessages", idempotencyLevel: .unknown, request: request, headers: headers)
+    }
+
     public enum Metadata {
         public enum Methods {
             public static let createChannel = Connect.MethodSpec(name: "CreateChannel", service: "wisal.v1.SocialService", type: .unary)
@@ -158,6 +174,7 @@ public final class Wisal_V1_SocialServiceClient: Wisal_V1_SocialServiceClientInt
             public static let getMyChannels = Connect.MethodSpec(name: "GetMyChannels", service: "wisal.v1.SocialService", type: .unary)
             public static let subscribeChannel = Connect.MethodSpec(name: "SubscribeChannel", service: "wisal.v1.SocialService", type: .unary)
             public static let createMessage = Connect.MethodSpec(name: "CreateMessage", service: "wisal.v1.SocialService", type: .unary)
+            public static let getChannelMessages = Connect.MethodSpec(name: "GetChannelMessages", service: "wisal.v1.SocialService", type: .unary)
         }
     }
 }

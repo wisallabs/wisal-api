@@ -18,6 +18,7 @@ service SocialService {
   rpc SubscribeChannel(SubscribeChannelRequest) returns (SubscribeChannelResponse);
 
   rpc CreateMessage(CreateMessageRequest) returns (CreateMessageResponse);
+  rpc GetChannelMessages(GetChannelMessagesRequest) returns (GetChannelMessagesResponse);
 }
 
 message User {
@@ -48,7 +49,7 @@ message Channel {
   string description = 3;
   string image = 4;
   bool is_verified = 5;
-  google.protobuf.Timestamp last_post_at = 6;
+  google.protobuf.Timestamp last_message_at = 6;
 
   bool is_owner = 7;
   bool is_subscribed = 8;
@@ -63,6 +64,13 @@ message CreateChannelRequest {
 }
 message CreateChannelResponse {
   string public_id = 1;
+}
+
+message GetChannelMessagesRequest {
+  string public_id = 1;
+}
+message GetChannelMessagesResponse {
+  repeated Message messages = 1;
 }
 
 message SearchChannelsRequest {
@@ -91,14 +99,14 @@ enum MessageType {
 }
 message Message {
   int64 message_id = 1;
-  optional string author_id = 2;
+  optional string author_public_id = 2;
   optional int64 root_id = 3;
   optional int64 parent_id = 4;
   MessageType type = 5;
   optional string body = 6;
   optional string attachments = 7;
   int64 reply_count = 8;
-  bool is_thread = 9;
+  bool is_thread = 9; // ?
   bool is_edited = 10;
 
   google.protobuf.Timestamp created_at = 11;
