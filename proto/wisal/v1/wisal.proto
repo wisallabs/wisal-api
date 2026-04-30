@@ -53,8 +53,9 @@ message Channel {
 
   bool is_owner = 7;
   bool is_subscribed = 8;
+  int64 subscribers_count = 9;
 
-  optional bool notifications_enabled = 9;
+  optional bool notifications_enabled = 10;
 }
 
 message CreateChannelRequest {

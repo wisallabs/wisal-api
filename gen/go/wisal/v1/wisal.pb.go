@@ -347,7 +347,8 @@ type Channel struct {
 	LastMessageAt        *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=last_message_at,json=lastMessageAt,proto3" json:"last_message_at,omitempty"`
 	IsOwner              bool                   `protobuf:"varint,7,opt,name=is_owner,json=isOwner,proto3" json:"is_owner,omitempty"`
 	IsSubscribed         bool                   `protobuf:"varint,8,opt,name=is_subscribed,json=isSubscribed,proto3" json:"is_subscribed,omitempty"`
-	NotificationsEnabled *bool                  `protobuf:"varint,9,opt,name=notifications_enabled,json=notificationsEnabled,proto3,oneof" json:"notifications_enabled,omitempty"`
+	SubscribersCount     int64                  `protobuf:"varint,9,opt,name=subscribers_count,json=subscribersCount,proto3" json:"subscribers_count,omitempty"`
+	NotificationsEnabled *bool                  `protobuf:"varint,10,opt,name=notifications_enabled,json=notificationsEnabled,proto3,oneof" json:"notifications_enabled,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -436,6 +437,13 @@ func (x *Channel) GetIsSubscribed() bool {
 		return x.IsSubscribed
 	}
 	return false
+}
+
+func (x *Channel) GetSubscribersCount() int64 {
+	if x != nil {
+		return x.SubscribersCount
+	}
+	return 0
 }
 
 func (x *Channel) GetNotificationsEnabled() bool {
@@ -1156,7 +1164,7 @@ const file_wisal_v1_wisal_proto_rawDesc = "" +
 	"\x04code\x18\x02 \x01(\tR\x04code\"M\n" +
 	"\x11VerifyOTPResponse\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12\"\n" +
-	"\x04user\x18\x02 \x01(\v2\x0e.wisal.v1.UserR\x04user\"\xeb\x02\n" +
+	"\x04user\x18\x02 \x01(\v2\x0e.wisal.v1.UserR\x04user\"\x98\x03\n" +
 	"\aChannel\x12\x1b\n" +
 	"\tpublic_id\x18\x01 \x01(\tR\bpublicId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -1166,8 +1174,10 @@ const file_wisal_v1_wisal_proto_rawDesc = "" +
 	"isVerified\x12B\n" +
 	"\x0flast_message_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\rlastMessageAt\x12\x19\n" +
 	"\bis_owner\x18\a \x01(\bR\aisOwner\x12#\n" +
-	"\ris_subscribed\x18\b \x01(\bR\fisSubscribed\x128\n" +
-	"\x15notifications_enabled\x18\t \x01(\bH\x00R\x14notificationsEnabled\x88\x01\x01B\x18\n" +
+	"\ris_subscribed\x18\b \x01(\bR\fisSubscribed\x12+\n" +
+	"\x11subscribers_count\x18\t \x01(\x03R\x10subscribersCount\x128\n" +
+	"\x15notifications_enabled\x18\n" +
+	" \x01(\bH\x00R\x14notificationsEnabled\x88\x01\x01B\x18\n" +
 	"\x16_notifications_enabled\"]\n" +
 	"\x14CreateChannelRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +

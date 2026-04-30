@@ -173,6 +173,8 @@ public struct Wisal_V1_Channel: Sendable {
 
   public var isSubscribed: Bool = false
 
+  public var subscribersCount: Int64 = 0
+
   public var notificationsEnabled: Bool {
     get {_notificationsEnabled ?? false}
     set {_notificationsEnabled = newValue}
@@ -643,7 +645,7 @@ extension Wisal_V1_VerifyOTPResponse: SwiftProtobuf.Message, SwiftProtobuf._Mess
 
 extension Wisal_V1_Channel: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".Channel"
-  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}public_id\0\u{1}name\0\u{1}description\0\u{1}image\0\u{3}is_verified\0\u{3}last_message_at\0\u{3}is_owner\0\u{3}is_subscribed\0\u{3}notifications_enabled\0")
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}public_id\0\u{1}name\0\u{1}description\0\u{1}image\0\u{3}is_verified\0\u{3}last_message_at\0\u{3}is_owner\0\u{3}is_subscribed\0\u{3}subscribers_count\0\u{3}notifications_enabled\0")
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -659,7 +661,8 @@ extension Wisal_V1_Channel: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       case 6: try { try decoder.decodeSingularMessageField(value: &self._lastMessageAt) }()
       case 7: try { try decoder.decodeSingularBoolField(value: &self.isOwner) }()
       case 8: try { try decoder.decodeSingularBoolField(value: &self.isSubscribed) }()
-      case 9: try { try decoder.decodeSingularBoolField(value: &self._notificationsEnabled) }()
+      case 9: try { try decoder.decodeSingularInt64Field(value: &self.subscribersCount) }()
+      case 10: try { try decoder.decodeSingularBoolField(value: &self._notificationsEnabled) }()
       default: break
       }
     }
@@ -694,8 +697,11 @@ extension Wisal_V1_Channel: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     if self.isSubscribed != false {
       try visitor.visitSingularBoolField(value: self.isSubscribed, fieldNumber: 8)
     }
+    if self.subscribersCount != 0 {
+      try visitor.visitSingularInt64Field(value: self.subscribersCount, fieldNumber: 9)
+    }
     try { if let v = self._notificationsEnabled {
-      try visitor.visitSingularBoolField(value: v, fieldNumber: 9)
+      try visitor.visitSingularBoolField(value: v, fieldNumber: 10)
     } }()
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -709,6 +715,7 @@ extension Wisal_V1_Channel: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     if lhs._lastMessageAt != rhs._lastMessageAt {return false}
     if lhs.isOwner != rhs.isOwner {return false}
     if lhs.isSubscribed != rhs.isSubscribed {return false}
+    if lhs.subscribersCount != rhs.subscribersCount {return false}
     if lhs._notificationsEnabled != rhs._notificationsEnabled {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
