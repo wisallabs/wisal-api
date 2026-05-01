@@ -19,6 +19,8 @@ service SocialService {
 
   rpc CreateMessage(CreateMessageRequest) returns (CreateMessageResponse);
   rpc GetChannelMessages(GetChannelMessagesRequest) returns (GetChannelMessagesResponse);
+
+  rpc SyncAndSubscribe(SyncAndSubscribeRequest) returns (stream SyncAndSubscribeResponse);
 }
 
 message User {
@@ -69,7 +71,13 @@ message CreateChannelResponse {
 }
 
 message GetChannelMessagesRequest {
-  string chat_id = 1;
+  string channel_id = 1;
+  int32 limit = 2;
+
+  oneof pagination {
+    int64 before_message_id = 3;
+    int64 after_message_id = 4;
+  }
 }
 message GetChannelMessagesResponse {
   repeated Message messages = 1;
@@ -88,7 +96,7 @@ message GetMyChannelsResponse {
 }
 
 message SubscribeChannelRequest {
-  string channel_public_id = 1;
+  string channel_id = 1;
 }
 message SubscribeChannelResponse {}
 
@@ -117,7 +125,7 @@ message Message {
 }
 
 message CreateMessageRequest {
-  string channel_public_id = 1;
+  string channel_id = 1;
   optional int64 root_id = 2;
   optional int64 parent_id = 3;
   MessageType type = 4;
@@ -125,4 +133,55 @@ message CreateMessageRequest {
 }
 message CreateMessageResponse {
   Message message = 1;
+}
+
+enum UpdateType {
+  UPDATE_TYPE_UNSPECIFIED = 0;
+  UPDATE_TYPE_MESSAGE_NEW = 1;
+  UPDATE_TYPE_MESSAGE_EDIT = 2;
+  UPDATE_TYPE_MESSAGE_DELETE = 3;
+  UPDATE_TYPE_REACTION_CHANGE = 4;
+  UPDATE_TYPE_CHANNEL_UPDATE = 5;
+  UPDATE_TYPE_CHANNEL_DELETE = 6;
+}
+
+message SyncAndSubscribeRequest {
+  int64 last_known_seq = 1;
+}
+message SyncAndSubscribeResponse {
+  Event event = 1;
+}
+
+message Event {
+  int64 seq = 1;
+  UpdateType type = 2;
+  google.protobuf.Timestamp created_at = 3;
+
+  oneof payload {
+    ChannelMessageNewPayload channel_message_new = 4;
+    ChannelMessageEditPayload channel_message_edit = 5;
+    ChannelMessageDeletePayload channel_message_delete = 6;
+    ChannelEditPayload channel_edit = 7;
+  }
+}
+
+message ChannelMessageNewPayload {
+  string channel_id = 1;
+  string message_id = 2;
+  optional string body = 3;
+}
+message ChannelMessageEditPayload {
+  string channel_id = 1;
+  string message_id = 2;
+  optional string body = 3;
+}
+message ChannelMessageDeletePayload {
+  string channel_id = 1;
+  string message_id = 2;
+}
+message ChannelEditPayload {
+  string channel_id = 1;
+  string name = 2;
+  string description = 3;
+  string image = 4;
 }

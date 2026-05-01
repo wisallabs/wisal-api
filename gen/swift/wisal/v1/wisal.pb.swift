@@ -66,6 +66,60 @@ public enum Wisal_V1_MessageType: SwiftProtobuf.Enum, Swift.CaseIterable {
 
 }
 
+public enum Wisal_V1_UpdateType: SwiftProtobuf.Enum, Swift.CaseIterable {
+  public typealias RawValue = Int
+  case unspecified // = 0
+  case messageNew // = 1
+  case messageEdit // = 2
+  case messageDelete // = 3
+  case reactionChange // = 4
+  case channelUpdate // = 5
+  case channelDelete // = 6
+  case UNRECOGNIZED(Int)
+
+  public init() {
+    self = .unspecified
+  }
+
+  public init?(rawValue: Int) {
+    switch rawValue {
+    case 0: self = .unspecified
+    case 1: self = .messageNew
+    case 2: self = .messageEdit
+    case 3: self = .messageDelete
+    case 4: self = .reactionChange
+    case 5: self = .channelUpdate
+    case 6: self = .channelDelete
+    default: self = .UNRECOGNIZED(rawValue)
+    }
+  }
+
+  public var rawValue: Int {
+    switch self {
+    case .unspecified: return 0
+    case .messageNew: return 1
+    case .messageEdit: return 2
+    case .messageDelete: return 3
+    case .reactionChange: return 4
+    case .channelUpdate: return 5
+    case .channelDelete: return 6
+    case .UNRECOGNIZED(let i): return i
+    }
+  }
+
+  // The compiler won't synthesize support with the UNRECOGNIZED case.
+  public static let allCases: [Wisal_V1_UpdateType] = [
+    .unspecified,
+    .messageNew,
+    .messageEdit,
+    .messageDelete,
+    .reactionChange,
+    .channelUpdate,
+    .channelDelete,
+  ]
+
+}
+
 public struct Wisal_V1_User: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -227,9 +281,35 @@ public struct Wisal_V1_GetChannelMessagesRequest: Sendable {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  public var chatID: String = String()
+  public var channelID: String = String()
+
+  public var limit: Int32 = 0
+
+  public var pagination: Wisal_V1_GetChannelMessagesRequest.OneOf_Pagination? = nil
+
+  public var beforeMessageID: Int64 {
+    get {
+      if case .beforeMessageID(let v)? = pagination {return v}
+      return 0
+    }
+    set {pagination = .beforeMessageID(newValue)}
+  }
+
+  public var afterMessageID: Int64 {
+    get {
+      if case .afterMessageID(let v)? = pagination {return v}
+      return 0
+    }
+    set {pagination = .afterMessageID(newValue)}
+  }
 
   public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public enum OneOf_Pagination: Equatable, Sendable {
+    case beforeMessageID(Int64)
+    case afterMessageID(Int64)
+
+  }
 
   public init() {}
 }
@@ -297,7 +377,7 @@ public struct Wisal_V1_SubscribeChannelRequest: Sendable {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  public var channelPublicID: String = String()
+  public var channelID: String = String()
 
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -412,7 +492,7 @@ public struct Wisal_V1_CreateMessageRequest: Sendable {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  public var channelPublicID: String = String()
+  public var channelID: String = String()
 
   public var rootID: Int64 {
     get {_rootID ?? 0}
@@ -465,12 +545,198 @@ public struct Wisal_V1_CreateMessageResponse: Sendable {
   fileprivate var _message: Wisal_V1_Message? = nil
 }
 
+public struct Wisal_V1_SyncAndSubscribeRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var lastKnownSeq: Int64 = 0
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public struct Wisal_V1_SyncAndSubscribeResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var event: Wisal_V1_Event {
+    get {_event ?? Wisal_V1_Event()}
+    set {_event = newValue}
+  }
+  /// Returns true if `event` has been explicitly set.
+  public var hasEvent: Bool {self._event != nil}
+  /// Clears the value of `event`. Subsequent reads from it will return its default value.
+  public mutating func clearEvent() {self._event = nil}
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _event: Wisal_V1_Event? = nil
+}
+
+public struct Wisal_V1_Event: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var seq: Int64 = 0
+
+  public var type: Wisal_V1_UpdateType = .unspecified
+
+  public var createdAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {_createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_createdAt = newValue}
+  }
+  /// Returns true if `createdAt` has been explicitly set.
+  public var hasCreatedAt: Bool {self._createdAt != nil}
+  /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
+  public mutating func clearCreatedAt() {self._createdAt = nil}
+
+  public var payload: Wisal_V1_Event.OneOf_Payload? = nil
+
+  public var channelMessageNew: Wisal_V1_ChannelMessageNewPayload {
+    get {
+      if case .channelMessageNew(let v)? = payload {return v}
+      return Wisal_V1_ChannelMessageNewPayload()
+    }
+    set {payload = .channelMessageNew(newValue)}
+  }
+
+  public var channelMessageEdit: Wisal_V1_ChannelMessageEditPayload {
+    get {
+      if case .channelMessageEdit(let v)? = payload {return v}
+      return Wisal_V1_ChannelMessageEditPayload()
+    }
+    set {payload = .channelMessageEdit(newValue)}
+  }
+
+  public var channelMessageDelete: Wisal_V1_ChannelMessageDeletePayload {
+    get {
+      if case .channelMessageDelete(let v)? = payload {return v}
+      return Wisal_V1_ChannelMessageDeletePayload()
+    }
+    set {payload = .channelMessageDelete(newValue)}
+  }
+
+  public var channelEdit: Wisal_V1_ChannelEditPayload {
+    get {
+      if case .channelEdit(let v)? = payload {return v}
+      return Wisal_V1_ChannelEditPayload()
+    }
+    set {payload = .channelEdit(newValue)}
+  }
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public enum OneOf_Payload: Equatable, Sendable {
+    case channelMessageNew(Wisal_V1_ChannelMessageNewPayload)
+    case channelMessageEdit(Wisal_V1_ChannelMessageEditPayload)
+    case channelMessageDelete(Wisal_V1_ChannelMessageDeletePayload)
+    case channelEdit(Wisal_V1_ChannelEditPayload)
+
+  }
+
+  public init() {}
+
+  fileprivate var _createdAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+}
+
+public struct Wisal_V1_ChannelMessageNewPayload: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var channelID: String = String()
+
+  public var messageID: String = String()
+
+  public var body: String {
+    get {_body ?? String()}
+    set {_body = newValue}
+  }
+  /// Returns true if `body` has been explicitly set.
+  public var hasBody: Bool {self._body != nil}
+  /// Clears the value of `body`. Subsequent reads from it will return its default value.
+  public mutating func clearBody() {self._body = nil}
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _body: String? = nil
+}
+
+public struct Wisal_V1_ChannelMessageEditPayload: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var channelID: String = String()
+
+  public var messageID: String = String()
+
+  public var body: String {
+    get {_body ?? String()}
+    set {_body = newValue}
+  }
+  /// Returns true if `body` has been explicitly set.
+  public var hasBody: Bool {self._body != nil}
+  /// Clears the value of `body`. Subsequent reads from it will return its default value.
+  public mutating func clearBody() {self._body = nil}
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _body: String? = nil
+}
+
+public struct Wisal_V1_ChannelMessageDeletePayload: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var channelID: String = String()
+
+  public var messageID: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public struct Wisal_V1_ChannelEditPayload: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var channelID: String = String()
+
+  public var name: String = String()
+
+  public var description_p: String = String()
+
+  public var image: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "wisal.v1"
 
 extension Wisal_V1_MessageType: SwiftProtobuf._ProtoNameProviding {
   public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0MESSAGE_TYPE_UNSPECIFIED\0\u{1}MESSAGE_TYPE_TEXT\0\u{1}MESSAGE_TYPE_VOICE\0\u{1}MESSAGE_TYPE_IMAGE\0\u{1}MESSAGE_TYPE_AUDIO\0")
+}
+
+extension Wisal_V1_UpdateType: SwiftProtobuf._ProtoNameProviding {
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0UPDATE_TYPE_UNSPECIFIED\0\u{1}UPDATE_TYPE_MESSAGE_NEW\0\u{1}UPDATE_TYPE_MESSAGE_EDIT\0\u{1}UPDATE_TYPE_MESSAGE_DELETE\0\u{1}UPDATE_TYPE_REACTION_CHANGE\0\u{1}UPDATE_TYPE_CHANNEL_UPDATE\0\u{1}UPDATE_TYPE_CHANNEL_DELETE\0")
 }
 
 extension Wisal_V1_User: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
@@ -802,7 +1068,7 @@ extension Wisal_V1_CreateChannelResponse: SwiftProtobuf.Message, SwiftProtobuf._
 
 extension Wisal_V1_GetChannelMessagesRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".GetChannelMessagesRequest"
-  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}chat_id\0")
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}channel_id\0\u{1}limit\0\u{3}before_message_id\0\u{3}after_message_id\0")
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -810,21 +1076,58 @@ extension Wisal_V1_GetChannelMessagesRequest: SwiftProtobuf.Message, SwiftProtob
       // allocates stack space for every case branch when no optimizations are
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
-      case 1: try { try decoder.decodeSingularStringField(value: &self.chatID) }()
+      case 1: try { try decoder.decodeSingularStringField(value: &self.channelID) }()
+      case 2: try { try decoder.decodeSingularInt32Field(value: &self.limit) }()
+      case 3: try {
+        var v: Int64?
+        try decoder.decodeSingularInt64Field(value: &v)
+        if let v = v {
+          if self.pagination != nil {try decoder.handleConflictingOneOf()}
+          self.pagination = .beforeMessageID(v)
+        }
+      }()
+      case 4: try {
+        var v: Int64?
+        try decoder.decodeSingularInt64Field(value: &v)
+        if let v = v {
+          if self.pagination != nil {try decoder.handleConflictingOneOf()}
+          self.pagination = .afterMessageID(v)
+        }
+      }()
       default: break
       }
     }
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if !self.chatID.isEmpty {
-      try visitor.visitSingularStringField(value: self.chatID, fieldNumber: 1)
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.channelID.isEmpty {
+      try visitor.visitSingularStringField(value: self.channelID, fieldNumber: 1)
+    }
+    if self.limit != 0 {
+      try visitor.visitSingularInt32Field(value: self.limit, fieldNumber: 2)
+    }
+    switch self.pagination {
+    case .beforeMessageID?: try {
+      guard case .beforeMessageID(let v)? = self.pagination else { preconditionFailure() }
+      try visitor.visitSingularInt64Field(value: v, fieldNumber: 3)
+    }()
+    case .afterMessageID?: try {
+      guard case .afterMessageID(let v)? = self.pagination else { preconditionFailure() }
+      try visitor.visitSingularInt64Field(value: v, fieldNumber: 4)
+    }()
+    case nil: break
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   public static func ==(lhs: Wisal_V1_GetChannelMessagesRequest, rhs: Wisal_V1_GetChannelMessagesRequest) -> Bool {
-    if lhs.chatID != rhs.chatID {return false}
+    if lhs.channelID != rhs.channelID {return false}
+    if lhs.limit != rhs.limit {return false}
+    if lhs.pagination != rhs.pagination {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -971,7 +1274,7 @@ extension Wisal_V1_GetMyChannelsResponse: SwiftProtobuf.Message, SwiftProtobuf._
 
 extension Wisal_V1_SubscribeChannelRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".SubscribeChannelRequest"
-  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}channel_public_id\0")
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}channel_id\0")
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -979,21 +1282,21 @@ extension Wisal_V1_SubscribeChannelRequest: SwiftProtobuf.Message, SwiftProtobuf
       // allocates stack space for every case branch when no optimizations are
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
-      case 1: try { try decoder.decodeSingularStringField(value: &self.channelPublicID) }()
+      case 1: try { try decoder.decodeSingularStringField(value: &self.channelID) }()
       default: break
       }
     }
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if !self.channelPublicID.isEmpty {
-      try visitor.visitSingularStringField(value: self.channelPublicID, fieldNumber: 1)
+    if !self.channelID.isEmpty {
+      try visitor.visitSingularStringField(value: self.channelID, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   public static func ==(lhs: Wisal_V1_SubscribeChannelRequest, rhs: Wisal_V1_SubscribeChannelRequest) -> Bool {
-    if lhs.channelPublicID != rhs.channelPublicID {return false}
+    if lhs.channelID != rhs.channelID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -1114,7 +1417,7 @@ extension Wisal_V1_Message: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
 
 extension Wisal_V1_CreateMessageRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".CreateMessageRequest"
-  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}channel_public_id\0\u{3}root_id\0\u{3}parent_id\0\u{1}type\0\u{1}body\0")
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}channel_id\0\u{3}root_id\0\u{3}parent_id\0\u{1}type\0\u{1}body\0")
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1122,7 +1425,7 @@ extension Wisal_V1_CreateMessageRequest: SwiftProtobuf.Message, SwiftProtobuf._M
       // allocates stack space for every case branch when no optimizations are
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
-      case 1: try { try decoder.decodeSingularStringField(value: &self.channelPublicID) }()
+      case 1: try { try decoder.decodeSingularStringField(value: &self.channelID) }()
       case 2: try { try decoder.decodeSingularInt64Field(value: &self._rootID) }()
       case 3: try { try decoder.decodeSingularInt64Field(value: &self._parentID) }()
       case 4: try { try decoder.decodeSingularEnumField(value: &self.type) }()
@@ -1137,8 +1440,8 @@ extension Wisal_V1_CreateMessageRequest: SwiftProtobuf.Message, SwiftProtobuf._M
     // allocates stack space for every if/case branch local when no optimizations
     // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
     // https://github.com/apple/swift-protobuf/issues/1182
-    if !self.channelPublicID.isEmpty {
-      try visitor.visitSingularStringField(value: self.channelPublicID, fieldNumber: 1)
+    if !self.channelID.isEmpty {
+      try visitor.visitSingularStringField(value: self.channelID, fieldNumber: 1)
     }
     try { if let v = self._rootID {
       try visitor.visitSingularInt64Field(value: v, fieldNumber: 2)
@@ -1156,7 +1459,7 @@ extension Wisal_V1_CreateMessageRequest: SwiftProtobuf.Message, SwiftProtobuf._M
   }
 
   public static func ==(lhs: Wisal_V1_CreateMessageRequest, rhs: Wisal_V1_CreateMessageRequest) -> Bool {
-    if lhs.channelPublicID != rhs.channelPublicID {return false}
+    if lhs.channelID != rhs.channelID {return false}
     if lhs._rootID != rhs._rootID {return false}
     if lhs._parentID != rhs._parentID {return false}
     if lhs.type != rhs.type {return false}
@@ -1195,6 +1498,354 @@ extension Wisal_V1_CreateMessageResponse: SwiftProtobuf.Message, SwiftProtobuf._
 
   public static func ==(lhs: Wisal_V1_CreateMessageResponse, rhs: Wisal_V1_CreateMessageResponse) -> Bool {
     if lhs._message != rhs._message {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Wisal_V1_SyncAndSubscribeRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".SyncAndSubscribeRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}last_known_seq\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularInt64Field(value: &self.lastKnownSeq) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.lastKnownSeq != 0 {
+      try visitor.visitSingularInt64Field(value: self.lastKnownSeq, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Wisal_V1_SyncAndSubscribeRequest, rhs: Wisal_V1_SyncAndSubscribeRequest) -> Bool {
+    if lhs.lastKnownSeq != rhs.lastKnownSeq {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Wisal_V1_SyncAndSubscribeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".SyncAndSubscribeResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}event\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularMessageField(value: &self._event) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    try { if let v = self._event {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Wisal_V1_SyncAndSubscribeResponse, rhs: Wisal_V1_SyncAndSubscribeResponse) -> Bool {
+    if lhs._event != rhs._event {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Wisal_V1_Event: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".Event"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}seq\0\u{1}type\0\u{3}created_at\0\u{3}channel_message_new\0\u{3}channel_message_edit\0\u{3}channel_message_delete\0\u{3}channel_edit\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularInt64Field(value: &self.seq) }()
+      case 2: try { try decoder.decodeSingularEnumField(value: &self.type) }()
+      case 3: try { try decoder.decodeSingularMessageField(value: &self._createdAt) }()
+      case 4: try {
+        var v: Wisal_V1_ChannelMessageNewPayload?
+        var hadOneofValue = false
+        if let current = self.payload {
+          hadOneofValue = true
+          if case .channelMessageNew(let m) = current {v = m}
+        }
+        try decoder.decodeSingularMessageField(value: &v)
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.payload = .channelMessageNew(v)
+        }
+      }()
+      case 5: try {
+        var v: Wisal_V1_ChannelMessageEditPayload?
+        var hadOneofValue = false
+        if let current = self.payload {
+          hadOneofValue = true
+          if case .channelMessageEdit(let m) = current {v = m}
+        }
+        try decoder.decodeSingularMessageField(value: &v)
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.payload = .channelMessageEdit(v)
+        }
+      }()
+      case 6: try {
+        var v: Wisal_V1_ChannelMessageDeletePayload?
+        var hadOneofValue = false
+        if let current = self.payload {
+          hadOneofValue = true
+          if case .channelMessageDelete(let m) = current {v = m}
+        }
+        try decoder.decodeSingularMessageField(value: &v)
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.payload = .channelMessageDelete(v)
+        }
+      }()
+      case 7: try {
+        var v: Wisal_V1_ChannelEditPayload?
+        var hadOneofValue = false
+        if let current = self.payload {
+          hadOneofValue = true
+          if case .channelEdit(let m) = current {v = m}
+        }
+        try decoder.decodeSingularMessageField(value: &v)
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.payload = .channelEdit(v)
+        }
+      }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if self.seq != 0 {
+      try visitor.visitSingularInt64Field(value: self.seq, fieldNumber: 1)
+    }
+    if self.type != .unspecified {
+      try visitor.visitSingularEnumField(value: self.type, fieldNumber: 2)
+    }
+    try { if let v = self._createdAt {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+    } }()
+    switch self.payload {
+    case .channelMessageNew?: try {
+      guard case .channelMessageNew(let v)? = self.payload else { preconditionFailure() }
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+    }()
+    case .channelMessageEdit?: try {
+      guard case .channelMessageEdit(let v)? = self.payload else { preconditionFailure() }
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
+    }()
+    case .channelMessageDelete?: try {
+      guard case .channelMessageDelete(let v)? = self.payload else { preconditionFailure() }
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
+    }()
+    case .channelEdit?: try {
+      guard case .channelEdit(let v)? = self.payload else { preconditionFailure() }
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
+    }()
+    case nil: break
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Wisal_V1_Event, rhs: Wisal_V1_Event) -> Bool {
+    if lhs.seq != rhs.seq {return false}
+    if lhs.type != rhs.type {return false}
+    if lhs._createdAt != rhs._createdAt {return false}
+    if lhs.payload != rhs.payload {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Wisal_V1_ChannelMessageNewPayload: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".ChannelMessageNewPayload"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}channel_id\0\u{3}message_id\0\u{1}body\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.channelID) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.messageID) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self._body) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.channelID.isEmpty {
+      try visitor.visitSingularStringField(value: self.channelID, fieldNumber: 1)
+    }
+    if !self.messageID.isEmpty {
+      try visitor.visitSingularStringField(value: self.messageID, fieldNumber: 2)
+    }
+    try { if let v = self._body {
+      try visitor.visitSingularStringField(value: v, fieldNumber: 3)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Wisal_V1_ChannelMessageNewPayload, rhs: Wisal_V1_ChannelMessageNewPayload) -> Bool {
+    if lhs.channelID != rhs.channelID {return false}
+    if lhs.messageID != rhs.messageID {return false}
+    if lhs._body != rhs._body {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Wisal_V1_ChannelMessageEditPayload: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".ChannelMessageEditPayload"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}channel_id\0\u{3}message_id\0\u{1}body\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.channelID) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.messageID) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self._body) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.channelID.isEmpty {
+      try visitor.visitSingularStringField(value: self.channelID, fieldNumber: 1)
+    }
+    if !self.messageID.isEmpty {
+      try visitor.visitSingularStringField(value: self.messageID, fieldNumber: 2)
+    }
+    try { if let v = self._body {
+      try visitor.visitSingularStringField(value: v, fieldNumber: 3)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Wisal_V1_ChannelMessageEditPayload, rhs: Wisal_V1_ChannelMessageEditPayload) -> Bool {
+    if lhs.channelID != rhs.channelID {return false}
+    if lhs.messageID != rhs.messageID {return false}
+    if lhs._body != rhs._body {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Wisal_V1_ChannelMessageDeletePayload: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".ChannelMessageDeletePayload"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}channel_id\0\u{3}message_id\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.channelID) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.messageID) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.channelID.isEmpty {
+      try visitor.visitSingularStringField(value: self.channelID, fieldNumber: 1)
+    }
+    if !self.messageID.isEmpty {
+      try visitor.visitSingularStringField(value: self.messageID, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Wisal_V1_ChannelMessageDeletePayload, rhs: Wisal_V1_ChannelMessageDeletePayload) -> Bool {
+    if lhs.channelID != rhs.channelID {return false}
+    if lhs.messageID != rhs.messageID {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Wisal_V1_ChannelEditPayload: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".ChannelEditPayload"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}channel_id\0\u{1}name\0\u{1}description\0\u{1}image\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.channelID) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.name) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.description_p) }()
+      case 4: try { try decoder.decodeSingularStringField(value: &self.image) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.channelID.isEmpty {
+      try visitor.visitSingularStringField(value: self.channelID, fieldNumber: 1)
+    }
+    if !self.name.isEmpty {
+      try visitor.visitSingularStringField(value: self.name, fieldNumber: 2)
+    }
+    if !self.description_p.isEmpty {
+      try visitor.visitSingularStringField(value: self.description_p, fieldNumber: 3)
+    }
+    if !self.image.isEmpty {
+      try visitor.visitSingularStringField(value: self.image, fieldNumber: 4)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Wisal_V1_ChannelEditPayload, rhs: Wisal_V1_ChannelEditPayload) -> Bool {
+    if lhs.channelID != rhs.channelID {return false}
+    if lhs.name != rhs.name {return false}
+    if lhs.description_p != rhs.description_p {return false}
+    if lhs.image != rhs.image {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
