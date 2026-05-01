@@ -44,18 +44,19 @@ message VerifyOTPResponse {
 }
 
 message Channel {
-  string public_id = 1;
-  string name = 2;
-  string description = 3;
-  string image = 4;
-  bool is_verified = 5;
-  google.protobuf.Timestamp last_message_at = 6;
+  string id = 1;
+  string public_id = 2;
+  string name = 3;
+  string description = 4;
+  string image = 5;
+  bool is_verified = 6;
+  google.protobuf.Timestamp last_message_at = 7;
 
-  bool is_owner = 7;
-  bool is_subscribed = 8;
-  int64 subscribers_count = 9;
+  bool is_owner = 8;
+  bool is_subscribed = 9;
+  int64 subscribers_count = 10;
 
-  optional bool notifications_enabled = 10;
+  optional bool notifications_enabled = 11;
 }
 
 message CreateChannelRequest {
@@ -99,19 +100,20 @@ enum MessageType {
   MESSAGE_TYPE_AUDIO = 4;
 }
 message Message {
-  int64 message_id = 1;
-  optional string author_public_id = 2;
-  optional int64 root_id = 3;
-  optional int64 parent_id = 4;
-  MessageType type = 5;
-  optional string body = 6;
-  optional string attachments = 7;
-  int64 reply_count = 8;
-  bool is_thread = 9; // ?
-  bool is_edited = 10;
+  string chat_id = 1;
+  int64 message_id = 2;
+  optional string author_public_id = 3;
+  optional int64 root_id = 4;
+  optional int64 parent_id = 5;
+  MessageType type = 6;
+  optional string body = 7;
+  optional string attachments = 8;
+  int64 reply_count = 9;
+  bool is_thread = 10;
+  bool is_edited = 11;
 
-  google.protobuf.Timestamp created_at = 11;
-  google.protobuf.Timestamp updated_at = 12;
+  google.protobuf.Timestamp created_at = 12;
+  google.protobuf.Timestamp updated_at = 13;
 }
 
 message CreateMessageRequest {

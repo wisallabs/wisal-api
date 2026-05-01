@@ -150,6 +150,8 @@ public struct Wisal_V1_Channel: Sendable {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
+  public var id: String = String()
+
   public var publicID: String = String()
 
   public var name: String = String()
@@ -317,6 +319,8 @@ public struct Wisal_V1_Message: Sendable {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
+  public var chatID: String = String()
+
   public var messageID: Int64 = 0
 
   public var authorPublicID: String {
@@ -368,7 +372,6 @@ public struct Wisal_V1_Message: Sendable {
 
   public var replyCount: Int64 = 0
 
-  /// ?
   public var isThread: Bool = false
 
   public var isEdited: Bool = false
@@ -645,7 +648,7 @@ extension Wisal_V1_VerifyOTPResponse: SwiftProtobuf.Message, SwiftProtobuf._Mess
 
 extension Wisal_V1_Channel: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".Channel"
-  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}public_id\0\u{1}name\0\u{1}description\0\u{1}image\0\u{3}is_verified\0\u{3}last_message_at\0\u{3}is_owner\0\u{3}is_subscribed\0\u{3}subscribers_count\0\u{3}notifications_enabled\0")
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}id\0\u{3}public_id\0\u{1}name\0\u{1}description\0\u{1}image\0\u{3}is_verified\0\u{3}last_message_at\0\u{3}is_owner\0\u{3}is_subscribed\0\u{3}subscribers_count\0\u{3}notifications_enabled\0")
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -653,16 +656,17 @@ extension Wisal_V1_Channel: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       // allocates stack space for every case branch when no optimizations are
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
-      case 1: try { try decoder.decodeSingularStringField(value: &self.publicID) }()
-      case 2: try { try decoder.decodeSingularStringField(value: &self.name) }()
-      case 3: try { try decoder.decodeSingularStringField(value: &self.description_p) }()
-      case 4: try { try decoder.decodeSingularStringField(value: &self.image) }()
-      case 5: try { try decoder.decodeSingularBoolField(value: &self.isVerified) }()
-      case 6: try { try decoder.decodeSingularMessageField(value: &self._lastMessageAt) }()
-      case 7: try { try decoder.decodeSingularBoolField(value: &self.isOwner) }()
-      case 8: try { try decoder.decodeSingularBoolField(value: &self.isSubscribed) }()
-      case 9: try { try decoder.decodeSingularInt64Field(value: &self.subscribersCount) }()
-      case 10: try { try decoder.decodeSingularBoolField(value: &self._notificationsEnabled) }()
+      case 1: try { try decoder.decodeSingularStringField(value: &self.id) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.publicID) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.name) }()
+      case 4: try { try decoder.decodeSingularStringField(value: &self.description_p) }()
+      case 5: try { try decoder.decodeSingularStringField(value: &self.image) }()
+      case 6: try { try decoder.decodeSingularBoolField(value: &self.isVerified) }()
+      case 7: try { try decoder.decodeSingularMessageField(value: &self._lastMessageAt) }()
+      case 8: try { try decoder.decodeSingularBoolField(value: &self.isOwner) }()
+      case 9: try { try decoder.decodeSingularBoolField(value: &self.isSubscribed) }()
+      case 10: try { try decoder.decodeSingularInt64Field(value: &self.subscribersCount) }()
+      case 11: try { try decoder.decodeSingularBoolField(value: &self._notificationsEnabled) }()
       default: break
       }
     }
@@ -673,40 +677,44 @@ extension Wisal_V1_Channel: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     // allocates stack space for every if/case branch local when no optimizations
     // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
     // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.id.isEmpty {
+      try visitor.visitSingularStringField(value: self.id, fieldNumber: 1)
+    }
     if !self.publicID.isEmpty {
-      try visitor.visitSingularStringField(value: self.publicID, fieldNumber: 1)
+      try visitor.visitSingularStringField(value: self.publicID, fieldNumber: 2)
     }
     if !self.name.isEmpty {
-      try visitor.visitSingularStringField(value: self.name, fieldNumber: 2)
+      try visitor.visitSingularStringField(value: self.name, fieldNumber: 3)
     }
     if !self.description_p.isEmpty {
-      try visitor.visitSingularStringField(value: self.description_p, fieldNumber: 3)
+      try visitor.visitSingularStringField(value: self.description_p, fieldNumber: 4)
     }
     if !self.image.isEmpty {
-      try visitor.visitSingularStringField(value: self.image, fieldNumber: 4)
+      try visitor.visitSingularStringField(value: self.image, fieldNumber: 5)
     }
     if self.isVerified != false {
-      try visitor.visitSingularBoolField(value: self.isVerified, fieldNumber: 5)
+      try visitor.visitSingularBoolField(value: self.isVerified, fieldNumber: 6)
     }
     try { if let v = self._lastMessageAt {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
     } }()
     if self.isOwner != false {
-      try visitor.visitSingularBoolField(value: self.isOwner, fieldNumber: 7)
+      try visitor.visitSingularBoolField(value: self.isOwner, fieldNumber: 8)
     }
     if self.isSubscribed != false {
-      try visitor.visitSingularBoolField(value: self.isSubscribed, fieldNumber: 8)
+      try visitor.visitSingularBoolField(value: self.isSubscribed, fieldNumber: 9)
     }
     if self.subscribersCount != 0 {
-      try visitor.visitSingularInt64Field(value: self.subscribersCount, fieldNumber: 9)
+      try visitor.visitSingularInt64Field(value: self.subscribersCount, fieldNumber: 10)
     }
     try { if let v = self._notificationsEnabled {
-      try visitor.visitSingularBoolField(value: v, fieldNumber: 10)
+      try visitor.visitSingularBoolField(value: v, fieldNumber: 11)
     } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
   public static func ==(lhs: Wisal_V1_Channel, rhs: Wisal_V1_Channel) -> Bool {
+    if lhs.id != rhs.id {return false}
     if lhs.publicID != rhs.publicID {return false}
     if lhs.name != rhs.name {return false}
     if lhs.description_p != rhs.description_p {return false}
@@ -1012,7 +1020,7 @@ extension Wisal_V1_SubscribeChannelResponse: SwiftProtobuf.Message, SwiftProtobu
 
 extension Wisal_V1_Message: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".Message"
-  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}message_id\0\u{3}author_public_id\0\u{3}root_id\0\u{3}parent_id\0\u{1}type\0\u{1}body\0\u{1}attachments\0\u{3}reply_count\0\u{3}is_thread\0\u{3}is_edited\0\u{3}created_at\0\u{3}updated_at\0")
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}chat_id\0\u{3}message_id\0\u{3}author_public_id\0\u{3}root_id\0\u{3}parent_id\0\u{1}type\0\u{1}body\0\u{1}attachments\0\u{3}reply_count\0\u{3}is_thread\0\u{3}is_edited\0\u{3}created_at\0\u{3}updated_at\0")
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1020,18 +1028,19 @@ extension Wisal_V1_Message: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       // allocates stack space for every case branch when no optimizations are
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
-      case 1: try { try decoder.decodeSingularInt64Field(value: &self.messageID) }()
-      case 2: try { try decoder.decodeSingularStringField(value: &self._authorPublicID) }()
-      case 3: try { try decoder.decodeSingularInt64Field(value: &self._rootID) }()
-      case 4: try { try decoder.decodeSingularInt64Field(value: &self._parentID) }()
-      case 5: try { try decoder.decodeSingularEnumField(value: &self.type) }()
-      case 6: try { try decoder.decodeSingularStringField(value: &self._body) }()
-      case 7: try { try decoder.decodeSingularStringField(value: &self._attachments) }()
-      case 8: try { try decoder.decodeSingularInt64Field(value: &self.replyCount) }()
-      case 9: try { try decoder.decodeSingularBoolField(value: &self.isThread) }()
-      case 10: try { try decoder.decodeSingularBoolField(value: &self.isEdited) }()
-      case 11: try { try decoder.decodeSingularMessageField(value: &self._createdAt) }()
-      case 12: try { try decoder.decodeSingularMessageField(value: &self._updatedAt) }()
+      case 1: try { try decoder.decodeSingularStringField(value: &self.chatID) }()
+      case 2: try { try decoder.decodeSingularInt64Field(value: &self.messageID) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self._authorPublicID) }()
+      case 4: try { try decoder.decodeSingularInt64Field(value: &self._rootID) }()
+      case 5: try { try decoder.decodeSingularInt64Field(value: &self._parentID) }()
+      case 6: try { try decoder.decodeSingularEnumField(value: &self.type) }()
+      case 7: try { try decoder.decodeSingularStringField(value: &self._body) }()
+      case 8: try { try decoder.decodeSingularStringField(value: &self._attachments) }()
+      case 9: try { try decoder.decodeSingularInt64Field(value: &self.replyCount) }()
+      case 10: try { try decoder.decodeSingularBoolField(value: &self.isThread) }()
+      case 11: try { try decoder.decodeSingularBoolField(value: &self.isEdited) }()
+      case 12: try { try decoder.decodeSingularMessageField(value: &self._createdAt) }()
+      case 13: try { try decoder.decodeSingularMessageField(value: &self._updatedAt) }()
       default: break
       }
     }
@@ -1042,46 +1051,50 @@ extension Wisal_V1_Message: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     // allocates stack space for every if/case branch local when no optimizations
     // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
     // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.chatID.isEmpty {
+      try visitor.visitSingularStringField(value: self.chatID, fieldNumber: 1)
+    }
     if self.messageID != 0 {
-      try visitor.visitSingularInt64Field(value: self.messageID, fieldNumber: 1)
+      try visitor.visitSingularInt64Field(value: self.messageID, fieldNumber: 2)
     }
     try { if let v = self._authorPublicID {
-      try visitor.visitSingularStringField(value: v, fieldNumber: 2)
+      try visitor.visitSingularStringField(value: v, fieldNumber: 3)
     } }()
     try { if let v = self._rootID {
-      try visitor.visitSingularInt64Field(value: v, fieldNumber: 3)
-    } }()
-    try { if let v = self._parentID {
       try visitor.visitSingularInt64Field(value: v, fieldNumber: 4)
     } }()
+    try { if let v = self._parentID {
+      try visitor.visitSingularInt64Field(value: v, fieldNumber: 5)
+    } }()
     if self.type != .unspecified {
-      try visitor.visitSingularEnumField(value: self.type, fieldNumber: 5)
+      try visitor.visitSingularEnumField(value: self.type, fieldNumber: 6)
     }
     try { if let v = self._body {
-      try visitor.visitSingularStringField(value: v, fieldNumber: 6)
-    } }()
-    try { if let v = self._attachments {
       try visitor.visitSingularStringField(value: v, fieldNumber: 7)
     } }()
+    try { if let v = self._attachments {
+      try visitor.visitSingularStringField(value: v, fieldNumber: 8)
+    } }()
     if self.replyCount != 0 {
-      try visitor.visitSingularInt64Field(value: self.replyCount, fieldNumber: 8)
+      try visitor.visitSingularInt64Field(value: self.replyCount, fieldNumber: 9)
     }
     if self.isThread != false {
-      try visitor.visitSingularBoolField(value: self.isThread, fieldNumber: 9)
+      try visitor.visitSingularBoolField(value: self.isThread, fieldNumber: 10)
     }
     if self.isEdited != false {
-      try visitor.visitSingularBoolField(value: self.isEdited, fieldNumber: 10)
+      try visitor.visitSingularBoolField(value: self.isEdited, fieldNumber: 11)
     }
     try { if let v = self._createdAt {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 11)
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 12)
     } }()
     try { if let v = self._updatedAt {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 12)
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 13)
     } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
   public static func ==(lhs: Wisal_V1_Message, rhs: Wisal_V1_Message) -> Bool {
+    if lhs.chatID != rhs.chatID {return false}
     if lhs.messageID != rhs.messageID {return false}
     if lhs._authorPublicID != rhs._authorPublicID {return false}
     if lhs._rootID != rhs._rootID {return false}

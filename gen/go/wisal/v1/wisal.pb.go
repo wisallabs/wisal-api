@@ -339,16 +339,17 @@ func (x *VerifyOTPResponse) GetUser() *User {
 
 type Channel struct {
 	state                protoimpl.MessageState `protogen:"open.v1"`
-	PublicId             string                 `protobuf:"bytes,1,opt,name=public_id,json=publicId,proto3" json:"public_id,omitempty"`
-	Name                 string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description          string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Image                string                 `protobuf:"bytes,4,opt,name=image,proto3" json:"image,omitempty"`
-	IsVerified           bool                   `protobuf:"varint,5,opt,name=is_verified,json=isVerified,proto3" json:"is_verified,omitempty"`
-	LastMessageAt        *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=last_message_at,json=lastMessageAt,proto3" json:"last_message_at,omitempty"`
-	IsOwner              bool                   `protobuf:"varint,7,opt,name=is_owner,json=isOwner,proto3" json:"is_owner,omitempty"`
-	IsSubscribed         bool                   `protobuf:"varint,8,opt,name=is_subscribed,json=isSubscribed,proto3" json:"is_subscribed,omitempty"`
-	SubscribersCount     int64                  `protobuf:"varint,9,opt,name=subscribers_count,json=subscribersCount,proto3" json:"subscribers_count,omitempty"`
-	NotificationsEnabled *bool                  `protobuf:"varint,10,opt,name=notifications_enabled,json=notificationsEnabled,proto3,oneof" json:"notifications_enabled,omitempty"`
+	Id                   string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	PublicId             string                 `protobuf:"bytes,2,opt,name=public_id,json=publicId,proto3" json:"public_id,omitempty"`
+	Name                 string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Description          string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	Image                string                 `protobuf:"bytes,5,opt,name=image,proto3" json:"image,omitempty"`
+	IsVerified           bool                   `protobuf:"varint,6,opt,name=is_verified,json=isVerified,proto3" json:"is_verified,omitempty"`
+	LastMessageAt        *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=last_message_at,json=lastMessageAt,proto3" json:"last_message_at,omitempty"`
+	IsOwner              bool                   `protobuf:"varint,8,opt,name=is_owner,json=isOwner,proto3" json:"is_owner,omitempty"`
+	IsSubscribed         bool                   `protobuf:"varint,9,opt,name=is_subscribed,json=isSubscribed,proto3" json:"is_subscribed,omitempty"`
+	SubscribersCount     int64                  `protobuf:"varint,10,opt,name=subscribers_count,json=subscribersCount,proto3" json:"subscribers_count,omitempty"`
+	NotificationsEnabled *bool                  `protobuf:"varint,11,opt,name=notifications_enabled,json=notificationsEnabled,proto3,oneof" json:"notifications_enabled,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -381,6 +382,13 @@ func (x *Channel) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Channel.ProtoReflect.Descriptor instead.
 func (*Channel) Descriptor() ([]byte, []int) {
 	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *Channel) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
 }
 
 func (x *Channel) GetPublicId() string {
@@ -895,18 +903,19 @@ func (*SubscribeChannelResponse) Descriptor() ([]byte, []int) {
 
 type Message struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	MessageId      int64                  `protobuf:"varint,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
-	AuthorPublicId *string                `protobuf:"bytes,2,opt,name=author_public_id,json=authorPublicId,proto3,oneof" json:"author_public_id,omitempty"`
-	RootId         *int64                 `protobuf:"varint,3,opt,name=root_id,json=rootId,proto3,oneof" json:"root_id,omitempty"`
-	ParentId       *int64                 `protobuf:"varint,4,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`
-	Type           MessageType            `protobuf:"varint,5,opt,name=type,proto3,enum=wisal.v1.MessageType" json:"type,omitempty"`
-	Body           *string                `protobuf:"bytes,6,opt,name=body,proto3,oneof" json:"body,omitempty"`
-	Attachments    *string                `protobuf:"bytes,7,opt,name=attachments,proto3,oneof" json:"attachments,omitempty"`
-	ReplyCount     int64                  `protobuf:"varint,8,opt,name=reply_count,json=replyCount,proto3" json:"reply_count,omitempty"`
-	IsThread       bool                   `protobuf:"varint,9,opt,name=is_thread,json=isThread,proto3" json:"is_thread,omitempty"` // ?
-	IsEdited       bool                   `protobuf:"varint,10,opt,name=is_edited,json=isEdited,proto3" json:"is_edited,omitempty"`
-	CreatedAt      *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt      *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	ChatId         string                 `protobuf:"bytes,1,opt,name=chat_id,json=chatId,proto3" json:"chat_id,omitempty"`
+	MessageId      int64                  `protobuf:"varint,2,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
+	AuthorPublicId *string                `protobuf:"bytes,3,opt,name=author_public_id,json=authorPublicId,proto3,oneof" json:"author_public_id,omitempty"`
+	RootId         *int64                 `protobuf:"varint,4,opt,name=root_id,json=rootId,proto3,oneof" json:"root_id,omitempty"`
+	ParentId       *int64                 `protobuf:"varint,5,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`
+	Type           MessageType            `protobuf:"varint,6,opt,name=type,proto3,enum=wisal.v1.MessageType" json:"type,omitempty"`
+	Body           *string                `protobuf:"bytes,7,opt,name=body,proto3,oneof" json:"body,omitempty"`
+	Attachments    *string                `protobuf:"bytes,8,opt,name=attachments,proto3,oneof" json:"attachments,omitempty"`
+	ReplyCount     int64                  `protobuf:"varint,9,opt,name=reply_count,json=replyCount,proto3" json:"reply_count,omitempty"`
+	IsThread       bool                   `protobuf:"varint,10,opt,name=is_thread,json=isThread,proto3" json:"is_thread,omitempty"`
+	IsEdited       bool                   `protobuf:"varint,11,opt,name=is_edited,json=isEdited,proto3" json:"is_edited,omitempty"`
+	CreatedAt      *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt      *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -939,6 +948,13 @@ func (x *Message) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Message.ProtoReflect.Descriptor instead.
 func (*Message) Descriptor() ([]byte, []int) {
 	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *Message) GetChatId() string {
+	if x != nil {
+		return x.ChatId
+	}
+	return ""
 }
 
 func (x *Message) GetMessageId() int64 {
@@ -1164,20 +1180,21 @@ const file_wisal_v1_wisal_proto_rawDesc = "" +
 	"\x04code\x18\x02 \x01(\tR\x04code\"M\n" +
 	"\x11VerifyOTPResponse\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12\"\n" +
-	"\x04user\x18\x02 \x01(\v2\x0e.wisal.v1.UserR\x04user\"\x98\x03\n" +
-	"\aChannel\x12\x1b\n" +
-	"\tpublic_id\x18\x01 \x01(\tR\bpublicId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x14\n" +
-	"\x05image\x18\x04 \x01(\tR\x05image\x12\x1f\n" +
-	"\vis_verified\x18\x05 \x01(\bR\n" +
+	"\x04user\x18\x02 \x01(\v2\x0e.wisal.v1.UserR\x04user\"\xa8\x03\n" +
+	"\aChannel\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
+	"\tpublic_id\x18\x02 \x01(\tR\bpublicId\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x14\n" +
+	"\x05image\x18\x05 \x01(\tR\x05image\x12\x1f\n" +
+	"\vis_verified\x18\x06 \x01(\bR\n" +
 	"isVerified\x12B\n" +
-	"\x0flast_message_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\rlastMessageAt\x12\x19\n" +
-	"\bis_owner\x18\a \x01(\bR\aisOwner\x12#\n" +
-	"\ris_subscribed\x18\b \x01(\bR\fisSubscribed\x12+\n" +
-	"\x11subscribers_count\x18\t \x01(\x03R\x10subscribersCount\x128\n" +
-	"\x15notifications_enabled\x18\n" +
-	" \x01(\bH\x00R\x14notificationsEnabled\x88\x01\x01B\x18\n" +
+	"\x0flast_message_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\rlastMessageAt\x12\x19\n" +
+	"\bis_owner\x18\b \x01(\bR\aisOwner\x12#\n" +
+	"\ris_subscribed\x18\t \x01(\bR\fisSubscribed\x12+\n" +
+	"\x11subscribers_count\x18\n" +
+	" \x01(\x03R\x10subscribersCount\x128\n" +
+	"\x15notifications_enabled\x18\v \x01(\bH\x00R\x14notificationsEnabled\x88\x01\x01B\x18\n" +
 	"\x16_notifications_enabled\"]\n" +
 	"\x14CreateChannelRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
@@ -1198,25 +1215,26 @@ const file_wisal_v1_wisal_proto_rawDesc = "" +
 	"\bchannels\x18\x01 \x03(\v2\x11.wisal.v1.ChannelR\bchannels\"E\n" +
 	"\x17SubscribeChannelRequest\x12*\n" +
 	"\x11channel_public_id\x18\x01 \x01(\tR\x0fchannelPublicId\"\x1a\n" +
-	"\x18SubscribeChannelResponse\"\x9b\x04\n" +
-	"\aMessage\x12\x1d\n" +
+	"\x18SubscribeChannelResponse\"\xb4\x04\n" +
+	"\aMessage\x12\x17\n" +
+	"\achat_id\x18\x01 \x01(\tR\x06chatId\x12\x1d\n" +
 	"\n" +
-	"message_id\x18\x01 \x01(\x03R\tmessageId\x12-\n" +
-	"\x10author_public_id\x18\x02 \x01(\tH\x00R\x0eauthorPublicId\x88\x01\x01\x12\x1c\n" +
-	"\aroot_id\x18\x03 \x01(\x03H\x01R\x06rootId\x88\x01\x01\x12 \n" +
-	"\tparent_id\x18\x04 \x01(\x03H\x02R\bparentId\x88\x01\x01\x12)\n" +
-	"\x04type\x18\x05 \x01(\x0e2\x15.wisal.v1.MessageTypeR\x04type\x12\x17\n" +
-	"\x04body\x18\x06 \x01(\tH\x03R\x04body\x88\x01\x01\x12%\n" +
-	"\vattachments\x18\a \x01(\tH\x04R\vattachments\x88\x01\x01\x12\x1f\n" +
-	"\vreply_count\x18\b \x01(\x03R\n" +
+	"message_id\x18\x02 \x01(\x03R\tmessageId\x12-\n" +
+	"\x10author_public_id\x18\x03 \x01(\tH\x00R\x0eauthorPublicId\x88\x01\x01\x12\x1c\n" +
+	"\aroot_id\x18\x04 \x01(\x03H\x01R\x06rootId\x88\x01\x01\x12 \n" +
+	"\tparent_id\x18\x05 \x01(\x03H\x02R\bparentId\x88\x01\x01\x12)\n" +
+	"\x04type\x18\x06 \x01(\x0e2\x15.wisal.v1.MessageTypeR\x04type\x12\x17\n" +
+	"\x04body\x18\a \x01(\tH\x03R\x04body\x88\x01\x01\x12%\n" +
+	"\vattachments\x18\b \x01(\tH\x04R\vattachments\x88\x01\x01\x12\x1f\n" +
+	"\vreply_count\x18\t \x01(\x03R\n" +
 	"replyCount\x12\x1b\n" +
-	"\tis_thread\x18\t \x01(\bR\bisThread\x12\x1b\n" +
-	"\tis_edited\x18\n" +
-	" \x01(\bR\bisEdited\x129\n" +
+	"\tis_thread\x18\n" +
+	" \x01(\bR\bisThread\x12\x1b\n" +
+	"\tis_edited\x18\v \x01(\bR\bisEdited\x129\n" +
 	"\n" +
-	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"created_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAtB\x13\n" +
+	"updated_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAtB\x13\n" +
 	"\x11_author_public_idB\n" +
 	"\n" +
 	"\b_root_idB\f\n" +
