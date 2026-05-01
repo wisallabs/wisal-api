@@ -567,7 +567,7 @@ func (x *CreateChannelResponse) GetPublicId() string {
 
 type GetChannelMessagesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	PublicId      string                 `protobuf:"bytes,1,opt,name=public_id,json=publicId,proto3" json:"public_id,omitempty"`
+	ChatId        string                 `protobuf:"bytes,1,opt,name=chat_id,json=chatId,proto3" json:"chat_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -602,9 +602,9 @@ func (*GetChannelMessagesRequest) Descriptor() ([]byte, []int) {
 	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *GetChannelMessagesRequest) GetPublicId() string {
+func (x *GetChannelMessagesRequest) GetChatId() string {
 	if x != nil {
-		return x.PublicId
+		return x.ChatId
 	}
 	return ""
 }
@@ -1201,9 +1201,9 @@ const file_wisal_v1_wisal_proto_rawDesc = "" +
 	"\x05image\x18\x02 \x01(\tR\x05image\x12\x1b\n" +
 	"\tpublic_id\x18\x03 \x01(\tR\bpublicId\"4\n" +
 	"\x15CreateChannelResponse\x12\x1b\n" +
-	"\tpublic_id\x18\x01 \x01(\tR\bpublicId\"8\n" +
-	"\x19GetChannelMessagesRequest\x12\x1b\n" +
-	"\tpublic_id\x18\x01 \x01(\tR\bpublicId\"K\n" +
+	"\tpublic_id\x18\x01 \x01(\tR\bpublicId\"4\n" +
+	"\x19GetChannelMessagesRequest\x12\x17\n" +
+	"\achat_id\x18\x01 \x01(\tR\x06chatId\"K\n" +
 	"\x1aGetChannelMessagesResponse\x12-\n" +
 	"\bmessages\x18\x01 \x03(\v2\x11.wisal.v1.MessageR\bmessages\"-\n" +
 	"\x15SearchChannelsRequest\x12\x14\n" +

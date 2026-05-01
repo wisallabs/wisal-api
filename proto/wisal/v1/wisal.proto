@@ -69,7 +69,7 @@ message CreateChannelResponse {
 }
 
 message GetChannelMessagesRequest {
-  string public_id = 1;
+  string chat_id = 1;
 }
 message GetChannelMessagesResponse {
   repeated Message messages = 1;
