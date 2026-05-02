@@ -487,7 +487,7 @@ public struct Wisal_V1_Message: Sendable {
   fileprivate var _updatedAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 }
 
-public struct Wisal_V1_CreateMessageRequest: Sendable {
+public struct Wisal_V1_SendMessageRequest: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -524,7 +524,7 @@ public struct Wisal_V1_CreateMessageRequest: Sendable {
   fileprivate var _parentID: Int64? = nil
 }
 
-public struct Wisal_V1_CreateMessageResponse: Sendable {
+public struct Wisal_V1_SendMessageResponse: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -583,18 +583,16 @@ public struct Wisal_V1_Event: Sendable {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  public var seq: Int64 = 0
+  public var seq: Int64 {
+    get {_seq ?? 0}
+    set {_seq = newValue}
+  }
+  /// Returns true if `seq` has been explicitly set.
+  public var hasSeq: Bool {self._seq != nil}
+  /// Clears the value of `seq`. Subsequent reads from it will return its default value.
+  public mutating func clearSeq() {self._seq = nil}
 
   public var type: Wisal_V1_UpdateType = .unspecified
-
-  public var createdAt: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {_createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
-    set {_createdAt = newValue}
-  }
-  /// Returns true if `createdAt` has been explicitly set.
-  public var hasCreatedAt: Bool {self._createdAt != nil}
-  /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
-  public mutating func clearCreatedAt() {self._createdAt = nil}
 
   public var payload: Wisal_V1_Event.OneOf_Payload? = nil
 
@@ -642,7 +640,7 @@ public struct Wisal_V1_Event: Sendable {
 
   public init() {}
 
-  fileprivate var _createdAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+  fileprivate var _seq: Int64? = nil
 }
 
 public struct Wisal_V1_ChannelMessageNewPayload: Sendable {
@@ -652,7 +650,7 @@ public struct Wisal_V1_ChannelMessageNewPayload: Sendable {
 
   public var channelID: String = String()
 
-  public var messageID: String = String()
+  public var messageID: Int64 = 0
 
   public var body: String {
     get {_body ?? String()}
@@ -677,7 +675,7 @@ public struct Wisal_V1_ChannelMessageEditPayload: Sendable {
 
   public var channelID: String = String()
 
-  public var messageID: String = String()
+  public var messageID: Int64 = 0
 
   public var body: String {
     get {_body ?? String()}
@@ -702,7 +700,7 @@ public struct Wisal_V1_ChannelMessageDeletePayload: Sendable {
 
   public var channelID: String = String()
 
-  public var messageID: String = String()
+  public var messageID: Int64 = 0
 
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -1415,8 +1413,8 @@ extension Wisal_V1_Message: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
   }
 }
 
-extension Wisal_V1_CreateMessageRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  public static let protoMessageName: String = _protobuf_package + ".CreateMessageRequest"
+extension Wisal_V1_SendMessageRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".SendMessageRequest"
   public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}channel_id\0\u{3}root_id\0\u{3}parent_id\0\u{1}type\0\u{1}body\0")
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -1458,7 +1456,7 @@ extension Wisal_V1_CreateMessageRequest: SwiftProtobuf.Message, SwiftProtobuf._M
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  public static func ==(lhs: Wisal_V1_CreateMessageRequest, rhs: Wisal_V1_CreateMessageRequest) -> Bool {
+  public static func ==(lhs: Wisal_V1_SendMessageRequest, rhs: Wisal_V1_SendMessageRequest) -> Bool {
     if lhs.channelID != rhs.channelID {return false}
     if lhs._rootID != rhs._rootID {return false}
     if lhs._parentID != rhs._parentID {return false}
@@ -1469,8 +1467,8 @@ extension Wisal_V1_CreateMessageRequest: SwiftProtobuf.Message, SwiftProtobuf._M
   }
 }
 
-extension Wisal_V1_CreateMessageResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  public static let protoMessageName: String = _protobuf_package + ".CreateMessageResponse"
+extension Wisal_V1_SendMessageResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".SendMessageResponse"
   public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}message\0")
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -1496,7 +1494,7 @@ extension Wisal_V1_CreateMessageResponse: SwiftProtobuf.Message, SwiftProtobuf._
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  public static func ==(lhs: Wisal_V1_CreateMessageResponse, rhs: Wisal_V1_CreateMessageResponse) -> Bool {
+  public static func ==(lhs: Wisal_V1_SendMessageResponse, rhs: Wisal_V1_SendMessageResponse) -> Bool {
     if lhs._message != rhs._message {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -1569,7 +1567,7 @@ extension Wisal_V1_SyncAndSubscribeResponse: SwiftProtobuf.Message, SwiftProtobu
 
 extension Wisal_V1_Event: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".Event"
-  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}seq\0\u{1}type\0\u{3}created_at\0\u{3}channel_message_new\0\u{3}channel_message_edit\0\u{3}channel_message_delete\0\u{3}channel_edit\0")
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}seq\0\u{1}type\0\u{4}\u{2}channel_message_new\0\u{3}channel_message_edit\0\u{3}channel_message_delete\0\u{3}channel_edit\0")
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1577,9 +1575,8 @@ extension Wisal_V1_Event: SwiftProtobuf.Message, SwiftProtobuf._MessageImplement
       // allocates stack space for every case branch when no optimizations are
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
-      case 1: try { try decoder.decodeSingularInt64Field(value: &self.seq) }()
+      case 1: try { try decoder.decodeSingularInt64Field(value: &self._seq) }()
       case 2: try { try decoder.decodeSingularEnumField(value: &self.type) }()
-      case 3: try { try decoder.decodeSingularMessageField(value: &self._createdAt) }()
       case 4: try {
         var v: Wisal_V1_ChannelMessageNewPayload?
         var hadOneofValue = false
@@ -1642,15 +1639,12 @@ extension Wisal_V1_Event: SwiftProtobuf.Message, SwiftProtobuf._MessageImplement
     // allocates stack space for every if/case branch local when no optimizations
     // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
     // https://github.com/apple/swift-protobuf/issues/1182
-    if self.seq != 0 {
-      try visitor.visitSingularInt64Field(value: self.seq, fieldNumber: 1)
-    }
+    try { if let v = self._seq {
+      try visitor.visitSingularInt64Field(value: v, fieldNumber: 1)
+    } }()
     if self.type != .unspecified {
       try visitor.visitSingularEnumField(value: self.type, fieldNumber: 2)
     }
-    try { if let v = self._createdAt {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
-    } }()
     switch self.payload {
     case .channelMessageNew?: try {
       guard case .channelMessageNew(let v)? = self.payload else { preconditionFailure() }
@@ -1674,9 +1668,8 @@ extension Wisal_V1_Event: SwiftProtobuf.Message, SwiftProtobuf._MessageImplement
   }
 
   public static func ==(lhs: Wisal_V1_Event, rhs: Wisal_V1_Event) -> Bool {
-    if lhs.seq != rhs.seq {return false}
+    if lhs._seq != rhs._seq {return false}
     if lhs.type != rhs.type {return false}
-    if lhs._createdAt != rhs._createdAt {return false}
     if lhs.payload != rhs.payload {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -1694,7 +1687,7 @@ extension Wisal_V1_ChannelMessageNewPayload: SwiftProtobuf.Message, SwiftProtobu
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.channelID) }()
-      case 2: try { try decoder.decodeSingularStringField(value: &self.messageID) }()
+      case 2: try { try decoder.decodeSingularInt64Field(value: &self.messageID) }()
       case 3: try { try decoder.decodeSingularStringField(value: &self._body) }()
       default: break
       }
@@ -1709,8 +1702,8 @@ extension Wisal_V1_ChannelMessageNewPayload: SwiftProtobuf.Message, SwiftProtobu
     if !self.channelID.isEmpty {
       try visitor.visitSingularStringField(value: self.channelID, fieldNumber: 1)
     }
-    if !self.messageID.isEmpty {
-      try visitor.visitSingularStringField(value: self.messageID, fieldNumber: 2)
+    if self.messageID != 0 {
+      try visitor.visitSingularInt64Field(value: self.messageID, fieldNumber: 2)
     }
     try { if let v = self._body {
       try visitor.visitSingularStringField(value: v, fieldNumber: 3)
@@ -1738,7 +1731,7 @@ extension Wisal_V1_ChannelMessageEditPayload: SwiftProtobuf.Message, SwiftProtob
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.channelID) }()
-      case 2: try { try decoder.decodeSingularStringField(value: &self.messageID) }()
+      case 2: try { try decoder.decodeSingularInt64Field(value: &self.messageID) }()
       case 3: try { try decoder.decodeSingularStringField(value: &self._body) }()
       default: break
       }
@@ -1753,8 +1746,8 @@ extension Wisal_V1_ChannelMessageEditPayload: SwiftProtobuf.Message, SwiftProtob
     if !self.channelID.isEmpty {
       try visitor.visitSingularStringField(value: self.channelID, fieldNumber: 1)
     }
-    if !self.messageID.isEmpty {
-      try visitor.visitSingularStringField(value: self.messageID, fieldNumber: 2)
+    if self.messageID != 0 {
+      try visitor.visitSingularInt64Field(value: self.messageID, fieldNumber: 2)
     }
     try { if let v = self._body {
       try visitor.visitSingularStringField(value: v, fieldNumber: 3)
@@ -1782,7 +1775,7 @@ extension Wisal_V1_ChannelMessageDeletePayload: SwiftProtobuf.Message, SwiftProt
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.channelID) }()
-      case 2: try { try decoder.decodeSingularStringField(value: &self.messageID) }()
+      case 2: try { try decoder.decodeSingularInt64Field(value: &self.messageID) }()
       default: break
       }
     }
@@ -1792,8 +1785,8 @@ extension Wisal_V1_ChannelMessageDeletePayload: SwiftProtobuf.Message, SwiftProt
     if !self.channelID.isEmpty {
       try visitor.visitSingularStringField(value: self.channelID, fieldNumber: 1)
     }
-    if !self.messageID.isEmpty {
-      try visitor.visitSingularStringField(value: self.messageID, fieldNumber: 2)
+    if self.messageID != 0 {
+      try visitor.visitSingularInt64Field(value: self.messageID, fieldNumber: 2)
     }
     try unknownFields.traverse(visitor: &visitor)
   }

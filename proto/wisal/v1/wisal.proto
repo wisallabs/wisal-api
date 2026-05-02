@@ -17,7 +17,7 @@ service SocialService {
   rpc GetMyChannels(GetMyChannelsRequest) returns (GetMyChannelsResponse);
   rpc SubscribeChannel(SubscribeChannelRequest) returns (SubscribeChannelResponse);
 
-  rpc CreateMessage(CreateMessageRequest) returns (CreateMessageResponse);
+  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);
   rpc GetChannelMessages(GetChannelMessagesRequest) returns (GetChannelMessagesResponse);
 
   rpc SyncAndSubscribe(SyncAndSubscribeRequest) returns (stream SyncAndSubscribeResponse);
@@ -124,14 +124,14 @@ message Message {
   google.protobuf.Timestamp updated_at = 13;
 }
 
-message CreateMessageRequest {
+message SendMessageRequest {
   string channel_id = 1;
   optional int64 root_id = 2;
   optional int64 parent_id = 3;
   MessageType type = 4;
   string body = 5;
 }
-message CreateMessageResponse {
+message SendMessageResponse {
   Message message = 1;
 }
 
@@ -153,9 +153,8 @@ message SyncAndSubscribeResponse {
 }
 
 message Event {
-  int64 seq = 1;
+  optional int64 seq = 1;
   UpdateType type = 2;
-  google.protobuf.Timestamp created_at = 3;
 
   oneof payload {
     ChannelMessageNewPayload channel_message_new = 4;
@@ -167,17 +166,17 @@ message Event {
 
 message ChannelMessageNewPayload {
   string channel_id = 1;
-  string message_id = 2;
+  int64 message_id = 2;
   optional string body = 3;
 }
 message ChannelMessageEditPayload {
   string channel_id = 1;
-  string message_id = 2;
+  int64 message_id = 2;
   optional string body = 3;
 }
 message ChannelMessageDeletePayload {
   string channel_id = 1;
-  string message_id = 2;
+  int64 message_id = 2;
 }
 message ChannelEditPayload {
   string channel_id = 1;
