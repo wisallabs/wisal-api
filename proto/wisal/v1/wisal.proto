@@ -18,6 +18,7 @@ service SocialService {
   rpc SubscribeChannel(SubscribeChannelRequest) returns (SubscribeChannelResponse);
 
   rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);
+  rpc EditMessage(EditMessageRequest) returns (EditMessageResponse);
   rpc GetChannelMessages(GetChannelMessagesRequest) returns (GetChannelMessagesResponse);
 
   rpc SyncAndSubscribe(SyncAndSubscribeRequest) returns (stream SyncAndSubscribeResponse);
@@ -132,6 +133,15 @@ message SendMessageRequest {
   string body = 5;
 }
 message SendMessageResponse {
+  Message message = 1;
+}
+
+message EditMessageRequest {
+  string channel_id = 1;
+  int64 message_id = 2;
+  string body = 3;
+}
+message EditMessageResponse {
   Message message = 1;
 }
 

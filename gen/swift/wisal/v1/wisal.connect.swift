@@ -93,6 +93,12 @@ public protocol Wisal_V1_SocialServiceClientInterface: Sendable {
     func `sendMessage`(request: Wisal_V1_SendMessageRequest, headers: Connect.Headers) async -> ResponseMessage<Wisal_V1_SendMessageResponse>
 
     @discardableResult
+    func `editMessage`(request: Wisal_V1_EditMessageRequest, headers: Connect.Headers, completion: @escaping @Sendable (ResponseMessage<Wisal_V1_EditMessageResponse>) -> Void) -> Connect.Cancelable
+
+    @available(iOS 13, *)
+    func `editMessage`(request: Wisal_V1_EditMessageRequest, headers: Connect.Headers) async -> ResponseMessage<Wisal_V1_EditMessageResponse>
+
+    @discardableResult
     func `getChannelMessages`(request: Wisal_V1_GetChannelMessagesRequest, headers: Connect.Headers, completion: @escaping @Sendable (ResponseMessage<Wisal_V1_GetChannelMessagesResponse>) -> Void) -> Connect.Cancelable
 
     @available(iOS 13, *)
@@ -163,6 +169,16 @@ public final class Wisal_V1_SocialServiceClient: Wisal_V1_SocialServiceClientInt
     }
 
     @discardableResult
+    public func `editMessage`(request: Wisal_V1_EditMessageRequest, headers: Connect.Headers = [:], completion: @escaping @Sendable (ResponseMessage<Wisal_V1_EditMessageResponse>) -> Void) -> Connect.Cancelable {
+        return self.client.unary(path: "/wisal.v1.SocialService/EditMessage", idempotencyLevel: .unknown, request: request, headers: headers, completion: completion)
+    }
+
+    @available(iOS 13, *)
+    public func `editMessage`(request: Wisal_V1_EditMessageRequest, headers: Connect.Headers = [:]) async -> ResponseMessage<Wisal_V1_EditMessageResponse> {
+        return await self.client.unary(path: "/wisal.v1.SocialService/EditMessage", idempotencyLevel: .unknown, request: request, headers: headers)
+    }
+
+    @discardableResult
     public func `getChannelMessages`(request: Wisal_V1_GetChannelMessagesRequest, headers: Connect.Headers = [:], completion: @escaping @Sendable (ResponseMessage<Wisal_V1_GetChannelMessagesResponse>) -> Void) -> Connect.Cancelable {
         return self.client.unary(path: "/wisal.v1.SocialService/GetChannelMessages", idempotencyLevel: .unknown, request: request, headers: headers, completion: completion)
     }
@@ -188,6 +204,7 @@ public final class Wisal_V1_SocialServiceClient: Wisal_V1_SocialServiceClientInt
             public static let getMyChannels = Connect.MethodSpec(name: "GetMyChannels", service: "wisal.v1.SocialService", type: .unary)
             public static let subscribeChannel = Connect.MethodSpec(name: "SubscribeChannel", service: "wisal.v1.SocialService", type: .unary)
             public static let sendMessage = Connect.MethodSpec(name: "SendMessage", service: "wisal.v1.SocialService", type: .unary)
+            public static let editMessage = Connect.MethodSpec(name: "EditMessage", service: "wisal.v1.SocialService", type: .unary)
             public static let getChannelMessages = Connect.MethodSpec(name: "GetChannelMessages", service: "wisal.v1.SocialService", type: .unary)
             public static let syncAndSubscribe = Connect.MethodSpec(name: "SyncAndSubscribe", service: "wisal.v1.SocialService", type: .serverStream)
         }

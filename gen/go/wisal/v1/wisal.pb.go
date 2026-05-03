@@ -1276,6 +1276,110 @@ func (x *SendMessageResponse) GetMessage() *Message {
 	return nil
 }
 
+type EditMessageRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ChannelId     string                 `protobuf:"bytes,1,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty"`
+	MessageId     int64                  `protobuf:"varint,2,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
+	Body          string                 `protobuf:"bytes,3,opt,name=body,proto3" json:"body,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EditMessageRequest) Reset() {
+	*x = EditMessageRequest{}
+	mi := &file_wisal_v1_wisal_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EditMessageRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EditMessageRequest) ProtoMessage() {}
+
+func (x *EditMessageRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_wisal_v1_wisal_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EditMessageRequest.ProtoReflect.Descriptor instead.
+func (*EditMessageRequest) Descriptor() ([]byte, []int) {
+	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *EditMessageRequest) GetChannelId() string {
+	if x != nil {
+		return x.ChannelId
+	}
+	return ""
+}
+
+func (x *EditMessageRequest) GetMessageId() int64 {
+	if x != nil {
+		return x.MessageId
+	}
+	return 0
+}
+
+func (x *EditMessageRequest) GetBody() string {
+	if x != nil {
+		return x.Body
+	}
+	return ""
+}
+
+type EditMessageResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Message       *Message               `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EditMessageResponse) Reset() {
+	*x = EditMessageResponse{}
+	mi := &file_wisal_v1_wisal_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EditMessageResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EditMessageResponse) ProtoMessage() {}
+
+func (x *EditMessageResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_wisal_v1_wisal_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EditMessageResponse.ProtoReflect.Descriptor instead.
+func (*EditMessageResponse) Descriptor() ([]byte, []int) {
+	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *EditMessageResponse) GetMessage() *Message {
+	if x != nil {
+		return x.Message
+	}
+	return nil
+}
+
 type SyncAndSubscribeRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	LastKnownSeq  int64                  `protobuf:"varint,1,opt,name=last_known_seq,json=lastKnownSeq,proto3" json:"last_known_seq,omitempty"`
@@ -1285,7 +1389,7 @@ type SyncAndSubscribeRequest struct {
 
 func (x *SyncAndSubscribeRequest) Reset() {
 	*x = SyncAndSubscribeRequest{}
-	mi := &file_wisal_v1_wisal_proto_msgTypes[19]
+	mi := &file_wisal_v1_wisal_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1297,7 +1401,7 @@ func (x *SyncAndSubscribeRequest) String() string {
 func (*SyncAndSubscribeRequest) ProtoMessage() {}
 
 func (x *SyncAndSubscribeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_wisal_v1_wisal_proto_msgTypes[19]
+	mi := &file_wisal_v1_wisal_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1310,7 +1414,7 @@ func (x *SyncAndSubscribeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SyncAndSubscribeRequest.ProtoReflect.Descriptor instead.
 func (*SyncAndSubscribeRequest) Descriptor() ([]byte, []int) {
-	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{19}
+	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *SyncAndSubscribeRequest) GetLastKnownSeq() int64 {
@@ -1329,7 +1433,7 @@ type SyncAndSubscribeResponse struct {
 
 func (x *SyncAndSubscribeResponse) Reset() {
 	*x = SyncAndSubscribeResponse{}
-	mi := &file_wisal_v1_wisal_proto_msgTypes[20]
+	mi := &file_wisal_v1_wisal_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1341,7 +1445,7 @@ func (x *SyncAndSubscribeResponse) String() string {
 func (*SyncAndSubscribeResponse) ProtoMessage() {}
 
 func (x *SyncAndSubscribeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_wisal_v1_wisal_proto_msgTypes[20]
+	mi := &file_wisal_v1_wisal_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1354,7 +1458,7 @@ func (x *SyncAndSubscribeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SyncAndSubscribeResponse.ProtoReflect.Descriptor instead.
 func (*SyncAndSubscribeResponse) Descriptor() ([]byte, []int) {
-	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{20}
+	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *SyncAndSubscribeResponse) GetEvent() *Event {
@@ -1381,7 +1485,7 @@ type Event struct {
 
 func (x *Event) Reset() {
 	*x = Event{}
-	mi := &file_wisal_v1_wisal_proto_msgTypes[21]
+	mi := &file_wisal_v1_wisal_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1393,7 +1497,7 @@ func (x *Event) String() string {
 func (*Event) ProtoMessage() {}
 
 func (x *Event) ProtoReflect() protoreflect.Message {
-	mi := &file_wisal_v1_wisal_proto_msgTypes[21]
+	mi := &file_wisal_v1_wisal_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1406,7 +1510,7 @@ func (x *Event) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Event.ProtoReflect.Descriptor instead.
 func (*Event) Descriptor() ([]byte, []int) {
-	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{21}
+	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *Event) GetSeq() int64 {
@@ -1505,7 +1609,7 @@ type ChannelMessageNewPayload struct {
 
 func (x *ChannelMessageNewPayload) Reset() {
 	*x = ChannelMessageNewPayload{}
-	mi := &file_wisal_v1_wisal_proto_msgTypes[22]
+	mi := &file_wisal_v1_wisal_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1517,7 +1621,7 @@ func (x *ChannelMessageNewPayload) String() string {
 func (*ChannelMessageNewPayload) ProtoMessage() {}
 
 func (x *ChannelMessageNewPayload) ProtoReflect() protoreflect.Message {
-	mi := &file_wisal_v1_wisal_proto_msgTypes[22]
+	mi := &file_wisal_v1_wisal_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1530,7 +1634,7 @@ func (x *ChannelMessageNewPayload) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChannelMessageNewPayload.ProtoReflect.Descriptor instead.
 func (*ChannelMessageNewPayload) Descriptor() ([]byte, []int) {
-	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{22}
+	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *ChannelMessageNewPayload) GetChannelId() string {
@@ -1565,7 +1669,7 @@ type ChannelMessageEditPayload struct {
 
 func (x *ChannelMessageEditPayload) Reset() {
 	*x = ChannelMessageEditPayload{}
-	mi := &file_wisal_v1_wisal_proto_msgTypes[23]
+	mi := &file_wisal_v1_wisal_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1577,7 +1681,7 @@ func (x *ChannelMessageEditPayload) String() string {
 func (*ChannelMessageEditPayload) ProtoMessage() {}
 
 func (x *ChannelMessageEditPayload) ProtoReflect() protoreflect.Message {
-	mi := &file_wisal_v1_wisal_proto_msgTypes[23]
+	mi := &file_wisal_v1_wisal_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1590,7 +1694,7 @@ func (x *ChannelMessageEditPayload) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChannelMessageEditPayload.ProtoReflect.Descriptor instead.
 func (*ChannelMessageEditPayload) Descriptor() ([]byte, []int) {
-	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{23}
+	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *ChannelMessageEditPayload) GetChannelId() string {
@@ -1624,7 +1728,7 @@ type ChannelMessageDeletePayload struct {
 
 func (x *ChannelMessageDeletePayload) Reset() {
 	*x = ChannelMessageDeletePayload{}
-	mi := &file_wisal_v1_wisal_proto_msgTypes[24]
+	mi := &file_wisal_v1_wisal_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1636,7 +1740,7 @@ func (x *ChannelMessageDeletePayload) String() string {
 func (*ChannelMessageDeletePayload) ProtoMessage() {}
 
 func (x *ChannelMessageDeletePayload) ProtoReflect() protoreflect.Message {
-	mi := &file_wisal_v1_wisal_proto_msgTypes[24]
+	mi := &file_wisal_v1_wisal_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1649,7 +1753,7 @@ func (x *ChannelMessageDeletePayload) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChannelMessageDeletePayload.ProtoReflect.Descriptor instead.
 func (*ChannelMessageDeletePayload) Descriptor() ([]byte, []int) {
-	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{24}
+	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *ChannelMessageDeletePayload) GetChannelId() string {
@@ -1678,7 +1782,7 @@ type ChannelEditPayload struct {
 
 func (x *ChannelEditPayload) Reset() {
 	*x = ChannelEditPayload{}
-	mi := &file_wisal_v1_wisal_proto_msgTypes[25]
+	mi := &file_wisal_v1_wisal_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1690,7 +1794,7 @@ func (x *ChannelEditPayload) String() string {
 func (*ChannelEditPayload) ProtoMessage() {}
 
 func (x *ChannelEditPayload) ProtoReflect() protoreflect.Message {
-	mi := &file_wisal_v1_wisal_proto_msgTypes[25]
+	mi := &file_wisal_v1_wisal_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1703,7 +1807,7 @@ func (x *ChannelEditPayload) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChannelEditPayload.ProtoReflect.Descriptor instead.
 func (*ChannelEditPayload) Descriptor() ([]byte, []int) {
-	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{25}
+	return file_wisal_v1_wisal_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *ChannelEditPayload) GetChannelId() string {
@@ -1834,6 +1938,14 @@ const file_wisal_v1_wisal_proto_rawDesc = "" +
 	"\n" +
 	"_parent_id\"B\n" +
 	"\x13SendMessageResponse\x12+\n" +
+	"\amessage\x18\x01 \x01(\v2\x11.wisal.v1.MessageR\amessage\"f\n" +
+	"\x12EditMessageRequest\x12\x1d\n" +
+	"\n" +
+	"channel_id\x18\x01 \x01(\tR\tchannelId\x12\x1d\n" +
+	"\n" +
+	"message_id\x18\x02 \x01(\x03R\tmessageId\x12\x12\n" +
+	"\x04body\x18\x03 \x01(\tR\x04body\"B\n" +
+	"\x13EditMessageResponse\x12+\n" +
 	"\amessage\x18\x01 \x01(\v2\x11.wisal.v1.MessageR\amessage\"?\n" +
 	"\x17SyncAndSubscribeRequest\x12$\n" +
 	"\x0elast_known_seq\x18\x01 \x01(\x03R\flastKnownSeq\"A\n" +
@@ -1890,13 +2002,14 @@ const file_wisal_v1_wisal_proto_rawDesc = "" +
 	"\x1aUPDATE_TYPE_CHANNEL_DELETE\x10\x062\x93\x01\n" +
 	"\vAuthService\x12>\n" +
 	"\aSendOTP\x12\x18.wisal.v1.SendOTPRequest\x1a\x19.wisal.v1.SendOTPResponse\x12D\n" +
-	"\tVerifyOTP\x12\x1a.wisal.v1.VerifyOTPRequest\x1a\x1b.wisal.v1.VerifyOTPResponse2\xed\x04\n" +
+	"\tVerifyOTP\x12\x1a.wisal.v1.VerifyOTPRequest\x1a\x1b.wisal.v1.VerifyOTPResponse2\xb9\x05\n" +
 	"\rSocialService\x12P\n" +
 	"\rCreateChannel\x12\x1e.wisal.v1.CreateChannelRequest\x1a\x1f.wisal.v1.CreateChannelResponse\x12S\n" +
 	"\x0eSearchChannels\x12\x1f.wisal.v1.SearchChannelsRequest\x1a .wisal.v1.SearchChannelsResponse\x12P\n" +
 	"\rGetMyChannels\x12\x1e.wisal.v1.GetMyChannelsRequest\x1a\x1f.wisal.v1.GetMyChannelsResponse\x12Y\n" +
 	"\x10SubscribeChannel\x12!.wisal.v1.SubscribeChannelRequest\x1a\".wisal.v1.SubscribeChannelResponse\x12J\n" +
-	"\vSendMessage\x12\x1c.wisal.v1.SendMessageRequest\x1a\x1d.wisal.v1.SendMessageResponse\x12_\n" +
+	"\vSendMessage\x12\x1c.wisal.v1.SendMessageRequest\x1a\x1d.wisal.v1.SendMessageResponse\x12J\n" +
+	"\vEditMessage\x12\x1c.wisal.v1.EditMessageRequest\x1a\x1d.wisal.v1.EditMessageResponse\x12_\n" +
 	"\x12GetChannelMessages\x12#.wisal.v1.GetChannelMessagesRequest\x1a$.wisal.v1.GetChannelMessagesResponse\x12[\n" +
 	"\x10SyncAndSubscribe\x12!.wisal.v1.SyncAndSubscribeRequest\x1a\".wisal.v1.SyncAndSubscribeResponse0\x01B2Z0github.com/wisallabs/api/gen/go/wisal/v1;wisalv1b\x06proto3"
 
@@ -1913,7 +2026,7 @@ func file_wisal_v1_wisal_proto_rawDescGZIP() []byte {
 }
 
 var file_wisal_v1_wisal_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_wisal_v1_wisal_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
+var file_wisal_v1_wisal_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
 var file_wisal_v1_wisal_proto_goTypes = []any{
 	(MessageType)(0),                    // 0: wisal.v1.MessageType
 	(UpdateType)(0),                     // 1: wisal.v1.UpdateType
@@ -1936,55 +2049,60 @@ var file_wisal_v1_wisal_proto_goTypes = []any{
 	(*Message)(nil),                     // 18: wisal.v1.Message
 	(*SendMessageRequest)(nil),          // 19: wisal.v1.SendMessageRequest
 	(*SendMessageResponse)(nil),         // 20: wisal.v1.SendMessageResponse
-	(*SyncAndSubscribeRequest)(nil),     // 21: wisal.v1.SyncAndSubscribeRequest
-	(*SyncAndSubscribeResponse)(nil),    // 22: wisal.v1.SyncAndSubscribeResponse
-	(*Event)(nil),                       // 23: wisal.v1.Event
-	(*ChannelMessageNewPayload)(nil),    // 24: wisal.v1.ChannelMessageNewPayload
-	(*ChannelMessageEditPayload)(nil),   // 25: wisal.v1.ChannelMessageEditPayload
-	(*ChannelMessageDeletePayload)(nil), // 26: wisal.v1.ChannelMessageDeletePayload
-	(*ChannelEditPayload)(nil),          // 27: wisal.v1.ChannelEditPayload
-	(*timestamppb.Timestamp)(nil),       // 28: google.protobuf.Timestamp
+	(*EditMessageRequest)(nil),          // 21: wisal.v1.EditMessageRequest
+	(*EditMessageResponse)(nil),         // 22: wisal.v1.EditMessageResponse
+	(*SyncAndSubscribeRequest)(nil),     // 23: wisal.v1.SyncAndSubscribeRequest
+	(*SyncAndSubscribeResponse)(nil),    // 24: wisal.v1.SyncAndSubscribeResponse
+	(*Event)(nil),                       // 25: wisal.v1.Event
+	(*ChannelMessageNewPayload)(nil),    // 26: wisal.v1.ChannelMessageNewPayload
+	(*ChannelMessageEditPayload)(nil),   // 27: wisal.v1.ChannelMessageEditPayload
+	(*ChannelMessageDeletePayload)(nil), // 28: wisal.v1.ChannelMessageDeletePayload
+	(*ChannelEditPayload)(nil),          // 29: wisal.v1.ChannelEditPayload
+	(*timestamppb.Timestamp)(nil),       // 30: google.protobuf.Timestamp
 }
 var file_wisal_v1_wisal_proto_depIdxs = []int32{
 	2,  // 0: wisal.v1.VerifyOTPResponse.user:type_name -> wisal.v1.User
-	28, // 1: wisal.v1.Channel.last_message_at:type_name -> google.protobuf.Timestamp
+	30, // 1: wisal.v1.Channel.last_message_at:type_name -> google.protobuf.Timestamp
 	18, // 2: wisal.v1.GetChannelMessagesResponse.messages:type_name -> wisal.v1.Message
 	7,  // 3: wisal.v1.SearchChannelsResponse.channels:type_name -> wisal.v1.Channel
 	7,  // 4: wisal.v1.GetMyChannelsResponse.channels:type_name -> wisal.v1.Channel
 	0,  // 5: wisal.v1.Message.type:type_name -> wisal.v1.MessageType
-	28, // 6: wisal.v1.Message.created_at:type_name -> google.protobuf.Timestamp
-	28, // 7: wisal.v1.Message.updated_at:type_name -> google.protobuf.Timestamp
+	30, // 6: wisal.v1.Message.created_at:type_name -> google.protobuf.Timestamp
+	30, // 7: wisal.v1.Message.updated_at:type_name -> google.protobuf.Timestamp
 	0,  // 8: wisal.v1.SendMessageRequest.type:type_name -> wisal.v1.MessageType
 	18, // 9: wisal.v1.SendMessageResponse.message:type_name -> wisal.v1.Message
-	23, // 10: wisal.v1.SyncAndSubscribeResponse.event:type_name -> wisal.v1.Event
-	1,  // 11: wisal.v1.Event.type:type_name -> wisal.v1.UpdateType
-	24, // 12: wisal.v1.Event.channel_message_new:type_name -> wisal.v1.ChannelMessageNewPayload
-	25, // 13: wisal.v1.Event.channel_message_edit:type_name -> wisal.v1.ChannelMessageEditPayload
-	26, // 14: wisal.v1.Event.channel_message_delete:type_name -> wisal.v1.ChannelMessageDeletePayload
-	27, // 15: wisal.v1.Event.channel_edit:type_name -> wisal.v1.ChannelEditPayload
-	3,  // 16: wisal.v1.AuthService.SendOTP:input_type -> wisal.v1.SendOTPRequest
-	5,  // 17: wisal.v1.AuthService.VerifyOTP:input_type -> wisal.v1.VerifyOTPRequest
-	8,  // 18: wisal.v1.SocialService.CreateChannel:input_type -> wisal.v1.CreateChannelRequest
-	12, // 19: wisal.v1.SocialService.SearchChannels:input_type -> wisal.v1.SearchChannelsRequest
-	14, // 20: wisal.v1.SocialService.GetMyChannels:input_type -> wisal.v1.GetMyChannelsRequest
-	16, // 21: wisal.v1.SocialService.SubscribeChannel:input_type -> wisal.v1.SubscribeChannelRequest
-	19, // 22: wisal.v1.SocialService.SendMessage:input_type -> wisal.v1.SendMessageRequest
-	10, // 23: wisal.v1.SocialService.GetChannelMessages:input_type -> wisal.v1.GetChannelMessagesRequest
-	21, // 24: wisal.v1.SocialService.SyncAndSubscribe:input_type -> wisal.v1.SyncAndSubscribeRequest
-	4,  // 25: wisal.v1.AuthService.SendOTP:output_type -> wisal.v1.SendOTPResponse
-	6,  // 26: wisal.v1.AuthService.VerifyOTP:output_type -> wisal.v1.VerifyOTPResponse
-	9,  // 27: wisal.v1.SocialService.CreateChannel:output_type -> wisal.v1.CreateChannelResponse
-	13, // 28: wisal.v1.SocialService.SearchChannels:output_type -> wisal.v1.SearchChannelsResponse
-	15, // 29: wisal.v1.SocialService.GetMyChannels:output_type -> wisal.v1.GetMyChannelsResponse
-	17, // 30: wisal.v1.SocialService.SubscribeChannel:output_type -> wisal.v1.SubscribeChannelResponse
-	20, // 31: wisal.v1.SocialService.SendMessage:output_type -> wisal.v1.SendMessageResponse
-	11, // 32: wisal.v1.SocialService.GetChannelMessages:output_type -> wisal.v1.GetChannelMessagesResponse
-	22, // 33: wisal.v1.SocialService.SyncAndSubscribe:output_type -> wisal.v1.SyncAndSubscribeResponse
-	25, // [25:34] is the sub-list for method output_type
-	16, // [16:25] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	18, // 10: wisal.v1.EditMessageResponse.message:type_name -> wisal.v1.Message
+	25, // 11: wisal.v1.SyncAndSubscribeResponse.event:type_name -> wisal.v1.Event
+	1,  // 12: wisal.v1.Event.type:type_name -> wisal.v1.UpdateType
+	26, // 13: wisal.v1.Event.channel_message_new:type_name -> wisal.v1.ChannelMessageNewPayload
+	27, // 14: wisal.v1.Event.channel_message_edit:type_name -> wisal.v1.ChannelMessageEditPayload
+	28, // 15: wisal.v1.Event.channel_message_delete:type_name -> wisal.v1.ChannelMessageDeletePayload
+	29, // 16: wisal.v1.Event.channel_edit:type_name -> wisal.v1.ChannelEditPayload
+	3,  // 17: wisal.v1.AuthService.SendOTP:input_type -> wisal.v1.SendOTPRequest
+	5,  // 18: wisal.v1.AuthService.VerifyOTP:input_type -> wisal.v1.VerifyOTPRequest
+	8,  // 19: wisal.v1.SocialService.CreateChannel:input_type -> wisal.v1.CreateChannelRequest
+	12, // 20: wisal.v1.SocialService.SearchChannels:input_type -> wisal.v1.SearchChannelsRequest
+	14, // 21: wisal.v1.SocialService.GetMyChannels:input_type -> wisal.v1.GetMyChannelsRequest
+	16, // 22: wisal.v1.SocialService.SubscribeChannel:input_type -> wisal.v1.SubscribeChannelRequest
+	19, // 23: wisal.v1.SocialService.SendMessage:input_type -> wisal.v1.SendMessageRequest
+	21, // 24: wisal.v1.SocialService.EditMessage:input_type -> wisal.v1.EditMessageRequest
+	10, // 25: wisal.v1.SocialService.GetChannelMessages:input_type -> wisal.v1.GetChannelMessagesRequest
+	23, // 26: wisal.v1.SocialService.SyncAndSubscribe:input_type -> wisal.v1.SyncAndSubscribeRequest
+	4,  // 27: wisal.v1.AuthService.SendOTP:output_type -> wisal.v1.SendOTPResponse
+	6,  // 28: wisal.v1.AuthService.VerifyOTP:output_type -> wisal.v1.VerifyOTPResponse
+	9,  // 29: wisal.v1.SocialService.CreateChannel:output_type -> wisal.v1.CreateChannelResponse
+	13, // 30: wisal.v1.SocialService.SearchChannels:output_type -> wisal.v1.SearchChannelsResponse
+	15, // 31: wisal.v1.SocialService.GetMyChannels:output_type -> wisal.v1.GetMyChannelsResponse
+	17, // 32: wisal.v1.SocialService.SubscribeChannel:output_type -> wisal.v1.SubscribeChannelResponse
+	20, // 33: wisal.v1.SocialService.SendMessage:output_type -> wisal.v1.SendMessageResponse
+	22, // 34: wisal.v1.SocialService.EditMessage:output_type -> wisal.v1.EditMessageResponse
+	11, // 35: wisal.v1.SocialService.GetChannelMessages:output_type -> wisal.v1.GetChannelMessagesResponse
+	24, // 36: wisal.v1.SocialService.SyncAndSubscribe:output_type -> wisal.v1.SyncAndSubscribeResponse
+	27, // [27:37] is the sub-list for method output_type
+	17, // [17:27] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_wisal_v1_wisal_proto_init() }
@@ -1999,21 +2117,21 @@ func file_wisal_v1_wisal_proto_init() {
 	}
 	file_wisal_v1_wisal_proto_msgTypes[16].OneofWrappers = []any{}
 	file_wisal_v1_wisal_proto_msgTypes[17].OneofWrappers = []any{}
-	file_wisal_v1_wisal_proto_msgTypes[21].OneofWrappers = []any{
+	file_wisal_v1_wisal_proto_msgTypes[23].OneofWrappers = []any{
 		(*Event_ChannelMessageNew)(nil),
 		(*Event_ChannelMessageEdit)(nil),
 		(*Event_ChannelMessageDelete)(nil),
 		(*Event_ChannelEdit)(nil),
 	}
-	file_wisal_v1_wisal_proto_msgTypes[22].OneofWrappers = []any{}
-	file_wisal_v1_wisal_proto_msgTypes[23].OneofWrappers = []any{}
+	file_wisal_v1_wisal_proto_msgTypes[24].OneofWrappers = []any{}
+	file_wisal_v1_wisal_proto_msgTypes[25].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_wisal_v1_wisal_proto_rawDesc), len(file_wisal_v1_wisal_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   26,
+			NumMessages:   28,
 			NumExtensions: 0,
 			NumServices:   2,
 		},
